@@ -142,7 +142,7 @@ exports[`snapshot test 1`] = `
           {
             "Arn": {
               "Fn::GetAtt": [
-                "stockanalysisdownloadstocksLambdatestEEE9F6FD",
+                "stockanalysisdownloadlistedinfoLambdatest0184ECD7",
                 "Arn",
               ],
             },
@@ -153,12 +153,12 @@ exports[`snapshot test 1`] = `
       },
       "Type": "AWS::Events::Rule",
     },
-    "DailyRuleAllowEventRulestockanalysisbastionteststockanalysisdownloadstocksLambdatest7114E6877347BF8B": {
+    "DailyRuleAllowEventRulestockanalysisbastionteststockanalysisdownloadlistedinfoLambdatestD35B03C3A706F712": {
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
           "Fn::GetAtt": [
-            "stockanalysisdownloadstocksLambdatestEEE9F6FD",
+            "stockanalysisdownloadlistedinfoLambdatest0184ECD7",
             "Arn",
           ],
         },
@@ -259,10 +259,10 @@ exports[`snapshot test 1`] = `
       },
       "Type": "AWS::IAM::Policy",
     },
-    "stockanalysisdownloadstocksLambdatestEEE9F6FD": {
+    "stockanalysisdownloadlistedinfoLambdatest0184ECD7": {
       "DependsOn": [
-        "stockanalysisdownloadstocksLambdatestServiceRoleDefaultPolicy9F8C55D8",
-        "stockanalysisdownloadstocksLambdatestServiceRole1A72D2C7",
+        "stockanalysisdownloadlistedinfoLambdatestServiceRoleDefaultPolicy6FA16DB5",
+        "stockanalysisdownloadlistedinfoLambdatestServiceRole9F45CB6F",
       ],
       "Properties": {
         "Architectures": [
@@ -272,7 +272,7 @@ exports[`snapshot test 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "ac05d4feabe3a13e4dec110dfb718e8e7f02417bb57fb906562173ae6519778d.zip",
+          "S3Key": "43de6e6713962955f1d873342c6e1b126ad5e041042dc45dee0ab92e5dfdbf7d.zip",
         },
         "Environment": {
           "Variables": {
@@ -286,7 +286,7 @@ exports[`snapshot test 1`] = `
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
-            "stockanalysisdownloadstocksLambdatestServiceRole1A72D2C7",
+            "stockanalysisdownloadlistedinfoLambdatestServiceRole9F45CB6F",
             "Arn",
           ],
         },
@@ -295,7 +295,7 @@ exports[`snapshot test 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
-    "stockanalysisdownloadstocksLambdatestLogRetention325F31C8": {
+    "stockanalysisdownloadlistedinfoLambdatestLogRetentionF64F0B4C": {
       "Properties": {
         "LogGroupName": {
           "Fn::Join": [
@@ -303,7 +303,7 @@ exports[`snapshot test 1`] = `
             [
               "/aws/lambda/",
               {
-                "Ref": "stockanalysisdownloadstocksLambdatestEEE9F6FD",
+                "Ref": "stockanalysisdownloadlistedinfoLambdatest0184ECD7",
               },
             ],
           ],
@@ -318,7 +318,7 @@ exports[`snapshot test 1`] = `
       },
       "Type": "Custom::LogRetention",
     },
-    "stockanalysisdownloadstocksLambdatestServiceRole1A72D2C7": {
+    "stockanalysisdownloadlistedinfoLambdatestServiceRole9F45CB6F": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -349,7 +349,7 @@ exports[`snapshot test 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "stockanalysisdownloadstocksLambdatestServiceRoleDefaultPolicy9F8C55D8": {
+    "stockanalysisdownloadlistedinfoLambdatestServiceRoleDefaultPolicy6FA16DB5": {
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -381,10 +381,10 @@ exports[`snapshot test 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stockanalysisdownloadstocksLambdatestServiceRoleDefaultPolicy9F8C55D8",
+        "PolicyName": "stockanalysisdownloadlistedinfoLambdatestServiceRoleDefaultPolicy6FA16DB5",
         "Roles": [
           {
-            "Ref": "stockanalysisdownloadstocksLambdatestServiceRole1A72D2C7",
+            "Ref": "stockanalysisdownloadlistedinfoLambdatestServiceRole9F45CB6F",
           },
         ],
       },

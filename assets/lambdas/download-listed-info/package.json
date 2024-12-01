@@ -1,5 +1,5 @@
 {
-  "name": "lambda-handler",
+  "name": "download-listed-info",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
