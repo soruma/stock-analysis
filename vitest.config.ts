@@ -22,5 +22,6 @@ export default defineConfig({
             JQUANTS_API_MAIL_ADDRESS: 'test@example.com',
             JQUANTS_API_PASSWORD: 'password',
         },
+        snapshotSerializers: [ 'test/plugins/custom-serializer.ts' ]
     },
 });
