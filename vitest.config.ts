@@ -1,8 +1,9 @@
-import { defineConfig } from 'vite';
-import { configDefaults } from 'vitest/config';
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
     test: {
+        globals: true,
+        environment: 'node',
         coverage: {
             provider: 'v8',
             exclude: [
@@ -13,6 +14,10 @@ export default defineConfig({
                 '**/*{.,-}{test,spec,bench,benchmark}?(-d).?(c|m)[jt]s?(x)',
             ],
         },
+        exclude: [
+            'node_modules/**',
+            '**/*.{d.ts,js}',
+        ],
         env: {
             JQUANTS_API_MAIL_ADDRESS: 'test@example.com',
             JQUANTS_API_PASSWORD: 'password',
