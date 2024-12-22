@@ -1,6 +1,6 @@
 import type { Handler } from 'aws-lambda';
 import { registOfCodePerDate } from './registors';
-import { authUser, authRefresh, listedInfo, type AuthUserResponse, type AuthRefreshResponse } from './requests';
+import { authUser, authRefresh, listedInfo } from './requests';
 import { convertParams } from './utils';
 
 export const handler: Handler = async (event, context): Promise<string> => {
