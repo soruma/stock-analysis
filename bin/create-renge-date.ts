@@ -47,7 +47,8 @@ function writeWeekdaysToFile(startDate: string, endDate: string, outputPath: str
 const args: string[] = process.argv.slice(2);
 
 if (args.length < 3) {
-    console.error('Usage: node generateWeekdays.js <startDate> <endDate> <outputPath>');
+    console.error('Usage: ts-node bin/create-renge-date.ts <startDate> <endDate> <outputPath>');
+    console.error('Example: ts-node bin/create-renge-date.ts 2024-03-01 2024-03-20 output.json');
     process.exit(1);
 }
 
