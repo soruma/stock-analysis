@@ -22,17 +22,47 @@ export class StockAnalysisStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props: StockAnalysisLambdaStackProps) {
         super(scope, id, props);
 
-        /***
+        /**
          * S3
          */
         const s3 = new Bucket(this, props.resourceName.s3Name(), {
             bucketName: props.resourceName.s3Name(),
         });
 
-        /***
+        /**
          * Lambda
          */
-        const downloadListedInfoFunction = new NodejsFunction(
+        const downloadListedInfoFunction = this.downloadListedInfoFunction(props, s3.bucketName);
+        const downloadPricesDailyQuotesFunction = this.downloadPricesDailyQuotesFunction(props, s3.bucketName);
+
+        s3.grantPut(downloadListedInfoFunction);
+        s3.grantPut(downloadPricesDailyQuotesFunction);
+
+        /**
+         * EventBridge
+         */
+        const rule = new Rule(this, 'DailyRule', {
+            schedule: Schedule.cron({ minute: '0', hour: '15' }),
+        });
+
+        rule.addTarget(
+            new LambdaFunction(downloadListedInfoFunction, {
+                event: RuleTargetInput.fromObject({
+                    message: 'Scheduled event for download-listed-info',
+                }),
+            }),
+        );
+        rule.addTarget(
+            new LambdaFunction(downloadPricesDailyQuotesFunction, {
+                event: RuleTargetInput.fromObject({
+                    message: 'Scheduled event for download-prices-daily-quotes',
+                }),
+            }),
+        );
+    }
+
+    downloadListedInfoFunction(props: StockAnalysisLambdaStackProps, bucketName: string) {
+        return new NodejsFunction(
             this,
             props.resourceName.lambdaName('download-listed-info'),
             {
@@ -44,27 +74,30 @@ export class StockAnalysisStack extends cdk.Stack {
                 environment: {
                     JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
                     JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
-                    S3_BUCKET_NAME: s3.bucketName,
+                    S3_BUCKET_NAME: bucketName,
                 },
                 logRetention: RetentionDays.THIRTEEN_MONTHS,
             },
         );
+    }
 
-        s3.grantPut(downloadListedInfoFunction);
-
-        /***
-         * EventBridge
-         */
-        const rule = new Rule(this, 'DailyRule', {
-            schedule: Schedule.cron({ minute: '0', hour: '15' }),
-        });
-
-        rule.addTarget(
-            new LambdaFunction(downloadListedInfoFunction, {
-                event: RuleTargetInput.fromObject({
-                    message: 'Scheduled Event',
-                }),
-            }),
+    downloadPricesDailyQuotesFunction(props: StockAnalysisLambdaStackProps, bucketName: string) {
+        return new NodejsFunction(
+            this,
+            props.resourceName.lambdaName('download-prices-daily-quotes'),
+            {
+                entry: 'assets/lambdas/download-prices-daily-quotes/index.ts',
+                handler: 'handler',
+                architecture: Architecture.ARM_64,
+                runtime: Runtime.NODEJS_22_X,
+                timeout: cdk.Duration.seconds(30),
+                environment: {
+                    JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
+                    JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
+                    S3_BUCKET_NAME: bucketName,
+                },
+                logRetention: RetentionDays.THIRTEEN_MONTHS,
+            },
         );
     }
 }

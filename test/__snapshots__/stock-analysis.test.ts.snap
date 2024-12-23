@@ -147,7 +147,17 @@ exports[`snapshot test 1`] = `
               ],
             },
             Id: Target0,
-            Input: {"message":"Scheduled Event"},
+            Input: {"message":"Scheduled event for download-listed-info"},
+          },
+          {
+            Arn: {
+              Fn::GetAtt: [
+                stockanalysisdownloadpricesdailyquotesLambdatest23591130,
+                Arn,
+              ],
+            },
+            Id: Target1,
+            Input: {"message":"Scheduled event for download-prices-daily-quotes"},
           },
         ],
       },
@@ -159,6 +169,25 @@ exports[`snapshot test 1`] = `
         FunctionName: {
           Fn::GetAtt: [
             stockanalysisdownloadlistedinfoLambdatest0184ECD7,
+            Arn,
+          ],
+        },
+        Principal: events.amazonaws.com,
+        SourceArn: {
+          Fn::GetAtt: [
+            DailyRule7A0FEF67,
+            Arn,
+          ],
+        },
+      },
+      Type: AWS::Lambda::Permission,
+    },
+    DailyRuleAllowEventRulestockanalysisbastionteststockanalysisdownloadpricesdailyquotesLambdatest63898685766241F3: {
+      Properties: {
+        Action: lambda:InvokeFunction,
+        FunctionName: {
+          Fn::GetAtt: [
+            stockanalysisdownloadpricesdailyquotesLambdatest23591130,
             Arn,
           ],
         },
@@ -385,6 +414,137 @@ exports[`snapshot test 1`] = `
         Roles: [
           {
             Ref: stockanalysisdownloadlistedinfoLambdatestServiceRole9F45CB6F,
+          },
+        ],
+      },
+      Type: AWS::IAM::Policy,
+    },
+    stockanalysisdownloadpricesdailyquotesLambdatest23591130: {
+      DependsOn: [
+        stockanalysisdownloadpricesdailyquotesLambdatestServiceRoleDefaultPolicyE7604CB0,
+        stockanalysisdownloadpricesdailyquotesLambdatestServiceRole781FE6E4,
+      ],
+      Properties: {
+        Architectures: [
+          arm64,
+        ],
+        Code: {
+          S3Bucket: {
+            Fn::Sub: cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region},
+          },
+          S3Key: hashed.zip,
+        },
+        Environment: {
+          Variables: {
+            JQUANTS_API_MAIL_ADDRESS: test@example.com,
+            JQUANTS_API_PASSWORD: password,
+            S3_BUCKET_NAME: {
+              Ref: stockanalysiss3testAF212C08,
+            },
+          },
+        },
+        Handler: index.handler,
+        Role: {
+          Fn::GetAtt: [
+            stockanalysisdownloadpricesdailyquotesLambdatestServiceRole781FE6E4,
+            Arn,
+          ],
+        },
+        Runtime: nodejs22.x,
+        Timeout: 30,
+      },
+      Type: AWS::Lambda::Function,
+    },
+    stockanalysisdownloadpricesdailyquotesLambdatestLogRetentionEEE5C709: {
+      Properties: {
+        LogGroupName: {
+          Fn::Join: [
+            ,
+            [
+              /aws/lambda/,
+              {
+                Ref: stockanalysisdownloadpricesdailyquotesLambdatest23591130,
+              },
+            ],
+          ],
+        },
+        RetentionInDays: 400,
+        ServiceToken: {
+          Fn::GetAtt: [
+            LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A,
+            Arn,
+          ],
+        },
+      },
+      Type: Custom::LogRetention,
+    },
+    stockanalysisdownloadpricesdailyquotesLambdatestServiceRole781FE6E4: {
+      Properties: {
+        AssumeRolePolicyDocument: {
+          Statement: [
+            {
+              Action: sts:AssumeRole,
+              Effect: Allow,
+              Principal: {
+                Service: lambda.amazonaws.com,
+              },
+            },
+          ],
+          Version: 2012-10-17,
+        },
+        ManagedPolicyArns: [
+          {
+            Fn::Join: [
+              ,
+              [
+                arn:,
+                {
+                  Ref: AWS::Partition,
+                },
+                :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole,
+              ],
+            ],
+          },
+        ],
+      },
+      Type: AWS::IAM::Role,
+    },
+    stockanalysisdownloadpricesdailyquotesLambdatestServiceRoleDefaultPolicyE7604CB0: {
+      Properties: {
+        PolicyDocument: {
+          Statement: [
+            {
+              Action: [
+                s3:PutObject,
+                s3:PutObjectLegalHold,
+                s3:PutObjectRetention,
+                s3:PutObjectTagging,
+                s3:PutObjectVersionTagging,
+                s3:Abort*,
+              ],
+              Effect: Allow,
+              Resource: {
+                Fn::Join: [
+                  ,
+                  [
+                    {
+                      Fn::GetAtt: [
+                        stockanalysiss3testAF212C08,
+                        Arn,
+                      ],
+                    },
+                    /*,
+                  ],
+                ],
+              },
+            },
+          ],
+          Version: 2012-10-17,
+        },
+        PolicyName: stockanalysisdownloadpricesdailyquotesLambdatestServiceRoleDefaultPolicyE7604CB0,
+        Roles: [
+          {
+            Ref: stockanalysisdownloadpricesdailyquotesLambdatestServiceRole781FE6E4,
           },
         ],
       },
