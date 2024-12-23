@@ -32,8 +32,8 @@ export class StockAnalysisStack extends cdk.Stack {
         /**
          * Lambda
          */
-        const downloadListedInfoFunction = this.downloadListedInfoFunction(props, s3.bucketName);
-        const downloadPricesDailyQuotesFunction = this.downloadPricesDailyQuotesFunction(props, s3.bucketName);
+        const downloadListedInfoFunction = this.downloadListedInfoFunction(props);
+        const downloadPricesDailyQuotesFunction = this.downloadPricesDailyQuotesFunction(props);
 
         s3.grantPut(downloadListedInfoFunction);
         s3.grantPut(downloadPricesDailyQuotesFunction);
@@ -61,7 +61,7 @@ export class StockAnalysisStack extends cdk.Stack {
         );
     }
 
-    downloadListedInfoFunction(props: StockAnalysisLambdaStackProps, bucketName: string) {
+    downloadListedInfoFunction(props: StockAnalysisLambdaStackProps) {
         return new NodejsFunction(
             this,
             props.resourceName.lambdaName('download-listed-info'),
@@ -74,14 +74,14 @@ export class StockAnalysisStack extends cdk.Stack {
                 environment: {
                     JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
                     JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
-                    S3_BUCKET_NAME: bucketName,
+                    S3_BUCKET_NAME: props.resourceName.s3Name(),
                 },
                 logRetention: RetentionDays.THIRTEEN_MONTHS,
             },
         );
     }
 
-    downloadPricesDailyQuotesFunction(props: StockAnalysisLambdaStackProps, bucketName: string) {
+    downloadPricesDailyQuotesFunction(props: StockAnalysisLambdaStackProps) {
         return new NodejsFunction(
             this,
             props.resourceName.lambdaName('download-prices-daily-quotes'),
@@ -94,7 +94,7 @@ export class StockAnalysisStack extends cdk.Stack {
                 environment: {
                     JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
                     JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
-                    S3_BUCKET_NAME: bucketName,
+                    S3_BUCKET_NAME: props.resourceName.s3Name(),
                 },
                 logRetention: RetentionDays.THIRTEEN_MONTHS,
             },
