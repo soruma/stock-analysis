@@ -5,14 +5,12 @@ export default defineConfig({
         globals: true,
         environment: 'node',
         coverage: {
-            provider: 'v8',
+            all: true,
             exclude: [
-                '**/__tests__/**',
-                'bin/*',
-                'cdk.out/*',
-                '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*',
-                '**/*{.,-}{test,spec,bench,benchmark}?(-d).?(c|m)[jt]s?(x)',
+                'cdk.out',
+                '**/*.d.ts',
             ],
+            reporter: ['text', 'json', 'html'],
         },
         exclude: [
             'node_modules/**',
