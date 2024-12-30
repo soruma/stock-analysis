@@ -30,3 +30,22 @@ export const camelToKebabCase = (str: string): string => {
         .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
         .toLowerCase();
 };
+
+export const kebabToCamelCase = (input: string, options?: { capitalizeFirst?: boolean }): string => {
+    const result = input
+            .replace(/^-+|-+$/g, '')
+            .split('-')
+            .map((word, index) => {
+                if (index === 0) {
+                    return word.toLowerCase();
+                }
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            })
+            .join('');
+
+    if (options?.capitalizeFirst) {
+        return result.charAt(0).toUpperCase() + result.slice(1);
+    }
+
+    return result;
+};

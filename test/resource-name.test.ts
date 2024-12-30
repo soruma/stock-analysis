@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { camelToKebabCase, ResourceName } from '../lib/resource-name';
+import { camelToKebabCase, kebabToCamelCase, ResourceName } from '../lib/resource-name';
 
 describe('ResourceName', () => {
     const systemName = 'MySystem';
@@ -48,5 +48,47 @@ describe('camelToKebabCase', () => {
 
     it('should handle single words', () => {
         expect(camelToKebabCase('word')).toBe('word');
+    });
+});
+
+describe('kebabToCamelCase', () => {
+    it('should convert a simple kebab-case string to camelCase', () => {
+        expect(kebabToCamelCase('hello-world')).toBe('helloWorld');
+    });
+
+    it('should handle multiple hyphens correctly', () => {
+        expect(kebabToCamelCase('this-is-a-test')).toBe('thisIsATest');
+    });
+
+    it('should handle single-word strings', () => {
+        expect(kebabToCamelCase('hello')).toBe('hello');
+    });
+
+    it('should handle empty strings', () => {
+        expect(kebabToCamelCase('')).toBe('');
+    });
+
+    it('should handle uppercase letters in the input', () => {
+        expect(kebabToCamelCase('HELLO-WORLD')).toBe('helloWorld');
+    });
+
+    it('should handle strings with trailing hyphens', () => {
+        expect(kebabToCamelCase('hello-world-')).toBe('helloWorld');
+    });
+
+    it('should handle strings with leading hyphens', () => {
+        expect(kebabToCamelCase('-hello-world')).toBe('helloWorld');
+    });
+
+    it('should handle strings with multiple consecutive hyphens', () => {
+        expect(kebabToCamelCase('hello--world')).toBe('helloWorld');
+    });
+
+    it('should capitalize the first letter when capitalizeFirst option is true', () => {
+        expect(kebabToCamelCase('hello-world', { capitalizeFirst: true })).toBe('HelloWorld');
+    });
+
+    it('should handle single-word strings with capitalizeFirst option', () => {
+        expect(kebabToCamelCase('hello', { capitalizeFirst: true })).toBe('Hello');
     });
 });
