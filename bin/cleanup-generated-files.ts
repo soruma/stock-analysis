@@ -43,6 +43,7 @@ const cleanupGeneratedFiles = (patterns: string[], rootDir: string): void => {
 // Specify the patterns to delete
 const deletePatterns: string[] = [
   'cdk.out', // CDK output directory
+  '**/.turbo', // Turborepo cache directory
   '**/*.d.ts', // Type definition files
   '**/*.js', // JavaScript files
   '**/*.js.map', // Source maps

@@ -9,4 +9,7 @@ cdk.out
 
 *.env
 
+# turborepo
+.turbo
+
 coverage
