@@ -1,6 +1,6 @@
 import { expect, describe, it, vi, beforeEach } from 'vitest';
 
-import { convertParams } from '..';
+import { convertParams } from '../../src/utils';
 
 describe('convertParams', () => {
     beforeEach(() => {

@@ -1,6 +1,6 @@
 import { expect, describe, it, vi, afterEach, beforeEach, type MockInstance } from 'vitest';
 
-import { weeksAgo } from '..';
+import { weeksAgo } from '../../src/utils';
 
 describe('weeksAgo', () => {
     beforeEach(() => {

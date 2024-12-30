@@ -1,6 +1,6 @@
 import { expect, describe, it, vi, afterEach, beforeEach, type MockInstance } from 'vitest';
 
-import { authRefresh } from '..';
+import { authRefresh } from '../../src/requests';
 
 describe('authRefresh', () => {
     let mockedFetch: MockInstance;

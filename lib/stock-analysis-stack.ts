@@ -70,7 +70,7 @@ export class StockAnalysisStack extends cdk.Stack {
             this,
             props.resourceName.lambdaName('download-listed-info'),
             {
-                entry: 'assets/lambdas/download-listed-info/index.ts',
+                entry: 'assets/lambdas/download-listed-info/src/index.ts',
                 handler: 'handler',
                 architecture: Architecture.ARM_64,
                 runtime: Runtime.NODEJS_22_X,

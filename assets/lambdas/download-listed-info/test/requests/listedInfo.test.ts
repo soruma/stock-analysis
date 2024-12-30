@@ -1,6 +1,6 @@
 import { expect, describe, it, vi, afterEach, beforeEach, type MockInstance } from 'vitest';
 
-import { listedInfo } from '..';
+import { listedInfo } from '../../src/requests';
 
 describe('listedInfo', () => {
     let mockedFetch: MockInstance;
