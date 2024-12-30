@@ -16,7 +16,7 @@ export class ResourceName {
     }
 
     public lambdaName(name: string) {
-        return this.baseName(`${name}Lambda`);
+        return this.baseName(name);
     }
 
     public stackName(name: string) {

@@ -142,7 +142,7 @@ exports[`snapshot test 1`] = `
           {
             Arn: {
               Fn::GetAtt: [
-                stockanalysisdownloadlistedinfoLambdatest0184ECD7,
+                stockanalysisdownloadlistedinfotest19AD4155,
                 Arn,
               ],
             },
@@ -152,7 +152,7 @@ exports[`snapshot test 1`] = `
           {
             Arn: {
               Fn::GetAtt: [
-                stockanalysisdownloadpricesdailyquotesLambdatest23591130,
+                stockanalysisdownloadpricesdailyquotestestBBCC65CA,
                 Arn,
               ],
             },
@@ -163,12 +163,12 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::Events::Rule,
     },
-    DailyRuleAllowEventRulestockanalysisbastionteststockanalysisdownloadlistedinfoLambdatestD35B03C3A706F712: {
+    DailyRuleAllowEventRulestockanalysisbastionteststockanalysisdownloadlistedinfotestD89996BB3ADA709F: {
       Properties: {
         Action: lambda:InvokeFunction,
         FunctionName: {
           Fn::GetAtt: [
-            stockanalysisdownloadlistedinfoLambdatest0184ECD7,
+            stockanalysisdownloadlistedinfotest19AD4155,
             Arn,
           ],
         },
@@ -182,12 +182,12 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::Lambda::Permission,
     },
-    DailyRuleAllowEventRulestockanalysisbastionteststockanalysisdownloadpricesdailyquotesLambdatest63898685766241F3: {
+    DailyRuleAllowEventRulestockanalysisbastionteststockanalysisdownloadpricesdailyquotestestFE86BD7828A89DDE: {
       Properties: {
         Action: lambda:InvokeFunction,
         FunctionName: {
           Fn::GetAtt: [
-            stockanalysisdownloadpricesdailyquotesLambdatest23591130,
+            stockanalysisdownloadpricesdailyquotestestBBCC65CA,
             Arn,
           ],
         },
@@ -296,10 +296,10 @@ exports[`snapshot test 1`] = `
       Type: AWS::S3::Bucket,
       UpdateReplacePolicy: Retain,
     },
-    stockanalysisdownloadlistedinfoLambdatest0184ECD7: {
+    stockanalysisdownloadlistedinfotest19AD4155: {
       DependsOn: [
-        stockanalysisdownloadlistedinfoLambdatestServiceRoleDefaultPolicy6FA16DB5,
-        stockanalysisdownloadlistedinfoLambdatestServiceRole9F45CB6F,
+        stockanalysisdownloadlistedinfotestServiceRoleDefaultPolicy2D0EBA40,
+        stockanalysisdownloadlistedinfotestServiceRole1F191057,
       ],
       Properties: {
         Architectures: [
@@ -321,7 +321,7 @@ exports[`snapshot test 1`] = `
         Handler: index.handler,
         Role: {
           Fn::GetAtt: [
-            stockanalysisdownloadlistedinfoLambdatestServiceRole9F45CB6F,
+            stockanalysisdownloadlistedinfotestServiceRole1F191057,
             Arn,
           ],
         },
@@ -330,7 +330,7 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::Lambda::Function,
     },
-    stockanalysisdownloadlistedinfoLambdatestLogRetentionF64F0B4C: {
+    stockanalysisdownloadlistedinfotestLogRetentionF8B60AE3: {
       Properties: {
         LogGroupName: {
           Fn::Join: [
@@ -338,7 +338,7 @@ exports[`snapshot test 1`] = `
             [
               /aws/lambda/,
               {
-                Ref: stockanalysisdownloadlistedinfoLambdatest0184ECD7,
+                Ref: stockanalysisdownloadlistedinfotest19AD4155,
               },
             ],
           ],
@@ -353,7 +353,7 @@ exports[`snapshot test 1`] = `
       },
       Type: Custom::LogRetention,
     },
-    stockanalysisdownloadlistedinfoLambdatestServiceRole9F45CB6F: {
+    stockanalysisdownloadlistedinfotestServiceRole1F191057: {
       Properties: {
         AssumeRolePolicyDocument: {
           Statement: [
@@ -384,7 +384,7 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::IAM::Role,
     },
-    stockanalysisdownloadlistedinfoLambdatestServiceRoleDefaultPolicy6FA16DB5: {
+    stockanalysisdownloadlistedinfotestServiceRoleDefaultPolicy2D0EBA40: {
       Properties: {
         PolicyDocument: {
           Statement: [
@@ -416,19 +416,19 @@ exports[`snapshot test 1`] = `
           ],
           Version: 2012-10-17,
         },
-        PolicyName: stockanalysisdownloadlistedinfoLambdatestServiceRoleDefaultPolicy6FA16DB5,
+        PolicyName: stockanalysisdownloadlistedinfotestServiceRoleDefaultPolicy2D0EBA40,
         Roles: [
           {
-            Ref: stockanalysisdownloadlistedinfoLambdatestServiceRole9F45CB6F,
+            Ref: stockanalysisdownloadlistedinfotestServiceRole1F191057,
           },
         ],
       },
       Type: AWS::IAM::Policy,
     },
-    stockanalysisdownloadpricesdailyquotesLambdatest23591130: {
+    stockanalysisdownloadpricesdailyquotestestBBCC65CA: {
       DependsOn: [
-        stockanalysisdownloadpricesdailyquotesLambdatestServiceRoleDefaultPolicyE7604CB0,
-        stockanalysisdownloadpricesdailyquotesLambdatestServiceRole781FE6E4,
+        stockanalysisdownloadpricesdailyquotestestServiceRoleDefaultPolicy6817A0F8,
+        stockanalysisdownloadpricesdailyquotestestServiceRole05C04CA0,
       ],
       Properties: {
         Architectures: [
@@ -450,7 +450,7 @@ exports[`snapshot test 1`] = `
         Handler: index.handler,
         Role: {
           Fn::GetAtt: [
-            stockanalysisdownloadpricesdailyquotesLambdatestServiceRole781FE6E4,
+            stockanalysisdownloadpricesdailyquotestestServiceRole05C04CA0,
             Arn,
           ],
         },
@@ -459,7 +459,7 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::Lambda::Function,
     },
-    stockanalysisdownloadpricesdailyquotesLambdatestLogRetentionEEE5C709: {
+    stockanalysisdownloadpricesdailyquotestestLogRetention81A9E697: {
       Properties: {
         LogGroupName: {
           Fn::Join: [
@@ -467,7 +467,7 @@ exports[`snapshot test 1`] = `
             [
               /aws/lambda/,
               {
-                Ref: stockanalysisdownloadpricesdailyquotesLambdatest23591130,
+                Ref: stockanalysisdownloadpricesdailyquotestestBBCC65CA,
               },
             ],
           ],
@@ -482,7 +482,7 @@ exports[`snapshot test 1`] = `
       },
       Type: Custom::LogRetention,
     },
-    stockanalysisdownloadpricesdailyquotesLambdatestServiceRole781FE6E4: {
+    stockanalysisdownloadpricesdailyquotestestServiceRole05C04CA0: {
       Properties: {
         AssumeRolePolicyDocument: {
           Statement: [
@@ -513,7 +513,7 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::IAM::Role,
     },
-    stockanalysisdownloadpricesdailyquotesLambdatestServiceRoleDefaultPolicyE7604CB0: {
+    stockanalysisdownloadpricesdailyquotestestServiceRoleDefaultPolicy6817A0F8: {
       Properties: {
         PolicyDocument: {
           Statement: [
@@ -545,10 +545,10 @@ exports[`snapshot test 1`] = `
           ],
           Version: 2012-10-17,
         },
-        PolicyName: stockanalysisdownloadpricesdailyquotesLambdatestServiceRoleDefaultPolicyE7604CB0,
+        PolicyName: stockanalysisdownloadpricesdailyquotestestServiceRoleDefaultPolicy6817A0F8,
         Roles: [
           {
-            Ref: stockanalysisdownloadpricesdailyquotesLambdatestServiceRole781FE6E4,
+            Ref: stockanalysisdownloadpricesdailyquotestestServiceRole05C04CA0,
           },
         ],
       },

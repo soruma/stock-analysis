@@ -20,7 +20,7 @@ describe('ResourceName', () => {
 
     it('should generate the correct Lambda name', () => {
         const lambdaName = resourceName.lambdaName('MyFunction');
-        expect(lambdaName).toBe('MySystemMyFunctionLambdaDev');
+        expect(lambdaName).toBe('MySystemMyFunctionDev');
     });
 
     it('should generate the correct Stack name', () => {
