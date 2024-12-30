@@ -11,8 +11,8 @@ export class ResourceName {
         return `${this.systemName}${name}${this.systemEnv}`;
     }
 
-    public s3Name() {
-        return camelToKebabCase(this.baseName('S3'));
+    public s3Name(name: string) {
+        return camelToKebabCase(this.baseName(name));
     }
 
     public lambdaName(name: string) {

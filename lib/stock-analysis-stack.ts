@@ -19,14 +19,18 @@ interface StockAnalysisLambdaStackProps extends cdk.StackProps {
 }
 
 export class StockAnalysisStack extends cdk.Stack {
+    dataBucketName: string;
+
     constructor(scope: Construct, id: string, props: StockAnalysisLambdaStackProps) {
         super(scope, id, props);
+
+        this.dataBucketName = props.resourceName.s3Name('Data');
 
         /**
          * S3
          */
-        const s3 = new Bucket(this, props.resourceName.s3Name(), {
-            bucketName: props.resourceName.s3Name(),
+        const dataBucket = new Bucket(this, this.dataBucketName, {
+            bucketName: this.dataBucketName,
         });
 
         /**
@@ -35,8 +39,8 @@ export class StockAnalysisStack extends cdk.Stack {
         const downloadListedInfoFunction = this.downloadListedInfoFunction(props);
         const downloadPricesDailyQuotesFunction = this.downloadPricesDailyQuotesFunction(props);
 
-        s3.grantPut(downloadListedInfoFunction);
-        s3.grantPut(downloadPricesDailyQuotesFunction);
+        dataBucket.grantPut(downloadListedInfoFunction);
+        dataBucket.grantPut(downloadPricesDailyQuotesFunction);
 
         /**
          * EventBridge
@@ -74,7 +78,7 @@ export class StockAnalysisStack extends cdk.Stack {
                 environment: {
                     JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
                     JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
-                    S3_BUCKET_NAME: props.resourceName.s3Name(),
+                    S3_BUCKET_NAME: this.dataBucketName,
                 },
                 logRetention: RetentionDays.THIRTEEN_MONTHS,
             },
@@ -94,7 +98,7 @@ export class StockAnalysisStack extends cdk.Stack {
                 environment: {
                     JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
                     JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
-                    S3_BUCKET_NAME: props.resourceName.s3Name(),
+                    S3_BUCKET_NAME: this.dataBucketName,
                 },
                 logRetention: RetentionDays.THIRTEEN_MONTHS,
             },

@@ -288,6 +288,14 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::IAM::Policy,
     },
+    stockanalysisdatatestF91C39C5: {
+      DeletionPolicy: Retain,
+      Properties: {
+        BucketName: stock-analysis-datatest,
+      },
+      Type: AWS::S3::Bucket,
+      UpdateReplacePolicy: Retain,
+    },
     stockanalysisdownloadlistedinfoLambdatest0184ECD7: {
       DependsOn: [
         stockanalysisdownloadlistedinfoLambdatestServiceRoleDefaultPolicy6FA16DB5,
@@ -307,9 +315,7 @@ exports[`snapshot test 1`] = `
           Variables: {
             JQUANTS_API_MAIL_ADDRESS: test@example.com,
             JQUANTS_API_PASSWORD: password,
-            S3_BUCKET_NAME: {
-              Ref: stockanalysiss3testAF212C08,
-            },
+            S3_BUCKET_NAME: stock-analysis-datatest,
           },
         },
         Handler: index.handler,
@@ -398,7 +404,7 @@ exports[`snapshot test 1`] = `
                   [
                     {
                       Fn::GetAtt: [
-                        stockanalysiss3testAF212C08,
+                        stockanalysisdatatestF91C39C5,
                         Arn,
                       ],
                     },
@@ -438,9 +444,7 @@ exports[`snapshot test 1`] = `
           Variables: {
             JQUANTS_API_MAIL_ADDRESS: test@example.com,
             JQUANTS_API_PASSWORD: password,
-            S3_BUCKET_NAME: {
-              Ref: stockanalysiss3testAF212C08,
-            },
+            S3_BUCKET_NAME: stock-analysis-datatest,
           },
         },
         Handler: index.handler,
@@ -529,7 +533,7 @@ exports[`snapshot test 1`] = `
                   [
                     {
                       Fn::GetAtt: [
-                        stockanalysiss3testAF212C08,
+                        stockanalysisdatatestF91C39C5,
                         Arn,
                       ],
                     },
@@ -549,14 +553,6 @@ exports[`snapshot test 1`] = `
         ],
       },
       Type: AWS::IAM::Policy,
-    },
-    stockanalysiss3testAF212C08: {
-      DeletionPolicy: Retain,
-      Properties: {
-        BucketName: stock-analysis-s3test,
-      },
-      Type: AWS::S3::Bucket,
-      UpdateReplacePolicy: Retain,
     },
   },
   Rules: {
