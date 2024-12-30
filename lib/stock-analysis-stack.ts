@@ -90,7 +90,7 @@ export class StockAnalysisStack extends cdk.Stack {
             this,
             props.resourceName.lambdaName('download-prices-daily-quotes'),
             {
-                entry: 'assets/lambdas/download-prices-daily-quotes/index.ts',
+                entry: 'assets/lambdas/download-prices-daily-quotes/src/index.ts',
                 handler: 'handler',
                 architecture: Architecture.ARM_64,
                 runtime: Runtime.NODEJS_22_X,
