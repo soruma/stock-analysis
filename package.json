@@ -4,6 +4,12 @@
   "bin": {
     "stock-analysis": "bin/stock-analysis.js"
   },
+  "engines": {
+    "node": ">=22",
+    "pnpm": "~9.15.2",
+    "npm": "Please use pnpm"
+  },
+  "packageManager": "pnpm@9.15.2",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
@@ -14,7 +20,9 @@
     "format": "npx @biomejs/biome format ./ --write",
     "ci": "npx @biomejs/biome ci .",
     "cleanup-generated-files": "ts-node bin/cleanup-generated-files.ts",
-    "create-renge-date": "ts-node bin/create-renge-date.ts"
+    "create-renge-date": "ts-node bin/create-renge-date.ts",
+    "download-listed-info": "pnpm --filter download-listed-info",
+    "download-prices-daily-quotes": "pnpm --filter download-prices-daily-quotes"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
