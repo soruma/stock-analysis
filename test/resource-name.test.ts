@@ -3,28 +3,28 @@ import { describe, expect, it } from 'vitest';
 import { camelToKebabCase, kebabToCamelCase, ResourceName } from '../lib/resource-name';
 
 describe('ResourceName', () => {
-    const systemName = 'MySystem';
-    const systemEnv = 'Dev';
+    const systemName = 'my-system';
+    const systemEnv = 'dev';
     const resourceName = new ResourceName(systemName, systemEnv);
 
     it('should generate the correct base name', () => {
         // biome-ignore lint/complexity/useLiteralKeys: <explanation>
-        const baseName = resourceName['baseName']('MyResource');
+        const baseName = resourceName['baseName']('my-resource');
         expect(baseName).toBe('MySystemMyResourceDev');
     });
 
     it('should generate the correct S3 name in kebab-case', () => {
-        const s3Name = resourceName.s3Name('MyBucket');
+        const s3Name = resourceName.s3Name('my-bucket');
         expect(s3Name).toBe('my-system-my-bucket-dev');
     });
 
     it('should generate the correct Lambda name', () => {
-        const lambdaName = resourceName.lambdaName('MyFunction');
+        const lambdaName = resourceName.lambdaName('my-function');
         expect(lambdaName).toBe('MySystemMyFunctionDev');
     });
 
     it('should generate the correct Stack name', () => {
-        const stackName = resourceName.stackName('MyStack');
+        const stackName = resourceName.stackName('my-stack');
         expect(stackName).toBe('MySystemMyStackDev');
     });
 });

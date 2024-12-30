@@ -6,11 +6,11 @@ import { ResourceName } from '../lib/resource-name';
 import { StockAnalysisStack } from '../lib/stock-analysis-stack';
 
 const systemEnv = 'test';
-const resourceName = new ResourceName('stock-analysis', systemEnv);
+const resourceName = new ResourceName('stock-snalysis', systemEnv);
 
 it('snapshot test', () => {
     const app = new cdk.App();
-    const stackName = resourceName.stackName('bastion');
+    const stackName = resourceName.stackName('base');
     const stack = new StockAnalysisStack(app, stackName, {
         resourceName,
     });

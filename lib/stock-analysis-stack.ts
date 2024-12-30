@@ -24,7 +24,7 @@ export class StockAnalysisStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props: StockAnalysisLambdaStackProps) {
         super(scope, id, props);
 
-        this.dataBucketName = props.resourceName.s3Name('Data');
+        this.dataBucketName = props.resourceName.s3Name('data');
 
         /**
          * S3

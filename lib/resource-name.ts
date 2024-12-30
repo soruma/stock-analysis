@@ -3,12 +3,13 @@ export class ResourceName {
     public readonly systemEnv: string;
 
     constructor(systemName: string, systemEnv: string) {
-        this.systemName = systemName;
-        this.systemEnv = systemEnv;
+        this.systemName = kebabToCamelCase(systemName, { capitalizeFirst: true });
+        this.systemEnv = kebabToCamelCase(systemEnv, { capitalizeFirst: true });
     }
 
     private baseName(name: string): string {
-        return `${this.systemName}${name}${this.systemEnv}`;
+        const str = kebabToCamelCase(name, { capitalizeFirst: true });
+        return `${this.systemName}${str}${this.systemEnv}`;
     }
 
     public s3Name(name: string) {
