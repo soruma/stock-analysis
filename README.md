@@ -1,15 +1,35 @@
-# Welcome to your CDK TypeScript project
-
-This is a blank project for CDK development with TypeScript.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+# Stock analysis
 
 ## Useful commands
 
-* `pnpm run build`          compile typescript to js
-* `pnpm run watch`          watch for changes and compile
-* `pnpm run test`           perform the jest unit tests
-* `pnpm dlx cdk deploy`     deploy this stack to your default AWS account/region
-* `pnpm dlx cdk diff`       compare deployed stack with current state
-* `pnpm dlx cdk synth`      emits the synthesized CloudFormation template
-* `pnpm run create-renge-date <startDate> <endDate> <outputPath>`
+* `pnpm cleanup-generated-files`
+  * Cleans up generated files.
+* `pnpm create-renge-date <startDate> <endDate> <outputPath>`
+  * Creates a file for the specified outputPath with a date range from startDate to endDate.
+
+## Build modules
+
+The following commands will install dependencies, build the project, and synthesize the AWS CDK stack:
+
+```shell
+pnpm install
+pnpm build
+pnpm dlx cdk synth
+```
+
+## Test
+
+The following commands will build the project and run the test suite to ensure everything is working as expected:
+
+```shell
+pnpm build
+pnpm test
+```
+
+## Deploy
+
+The following command will deploy the AWS CDK stack to your cloud environment:
+
+```
+pnpm dlx cdk deploy
+```
