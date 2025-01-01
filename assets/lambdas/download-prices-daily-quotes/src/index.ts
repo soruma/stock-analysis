@@ -1,6 +1,8 @@
 import type { Handler } from 'aws-lambda';
+import { authUser, authRefresh } from 'j-quants';
+
 import { registOfCodePerDate } from './registors';
-import { authUser, authRefresh, pricesDailyQuotes } from './requests';
+import { pricesDailyQuotes } from './requests';
 import { convertParams } from './utils';
 
 export const handler: Handler = async (event, context): Promise<string> => {
