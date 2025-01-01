@@ -5,5 +5,7 @@ export {
   type AuthUserResponse,
   listedInfo,
   type ListedInfo,
+  pricesDailyQuotes,
+  type PricesDailyQuotes,
 } from './requests';
 export { getEnvVariable, weeksAgo } from './utils';
