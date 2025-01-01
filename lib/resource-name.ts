@@ -16,6 +16,14 @@ export class ResourceName {
     return `${camelToKebabCase(this.baseName(name))}-01941fc5-033f-7488-9a8c-8921a4298acc`;
   }
 
+  public bucketPolicyName(name: string) {
+    return this.baseName(name);
+  }
+
+  public kmsName(name: string) {
+    return this.baseName(name);
+  }
+
   public lambdaLayerVersionName(name: string) {
     return this.baseName(name);
   }

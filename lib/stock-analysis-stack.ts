@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Architecture, Code, LayerVersion, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
+import { Bucket, BucketPolicy } from 'aws-cdk-lib/aws-s3';
 import type { Construct } from 'constructs';
 
 import * as path from 'node:path';
@@ -9,13 +9,17 @@ import * as dotenv from 'dotenv';
 
 import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
+import { ArnPrincipal, Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { Key } from 'aws-cdk-lib/aws-kms';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
-import type { ResourceName } from './resource-name';
+import { ResourceName } from './resource-name';
 
 dotenv.config({ path: path.resolve(__dirname, '../.jquants.env') });
+dotenv.config({ path: path.resolve(__dirname, '../.abacus.env') });
 
 interface StockAnalysisLambdaStackProps extends cdk.StackProps {
   resourceName: ResourceName;
+  abacusRoleArn: string;
 }
 
 export class StockAnalysisStack extends cdk.Stack {
@@ -27,11 +31,41 @@ export class StockAnalysisStack extends cdk.Stack {
     this.dataBucketName = props.resourceName.s3Name('data');
 
     /**
+     * KMS
+     */
+    const dataBucketKey = new Key(this, props.resourceName.kmsName('data-bucket-key'), {
+      alias: 'alias/data-bucket-key',
+      enableKeyRotation: true,
+    });
+    dataBucketKey.addToResourcePolicy(
+      new PolicyStatement({
+        sid: 'Grant Abacus.AI KMS access',
+        effect: Effect.ALLOW,
+        principals: [new ArnPrincipal(props.abacusRoleArn)],
+        actions: ['kms:Decrypt', 'kms:GenerateDataKey*'],
+        resources: ['*'],
+      }),
+    );
+
+    /**
      * S3
      */
     const dataBucket = new Bucket(this, this.dataBucketName, {
       bucketName: this.dataBucketName,
+      encryptionKey: dataBucketKey,
     });
+
+    const bucketPolicy = new BucketPolicy(this, props.resourceName.bucketPolicyName('data-bucket-policy'), {
+      bucket: dataBucket,
+    });
+    bucketPolicy.document.addStatements(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        principals: [new ArnPrincipal(props.abacusRoleArn)],
+        actions: ['s3:GetObject', 's3:ListBucket'],
+        resources: [`${dataBucket.bucketArn}/*`, dataBucket.bucketArn],
+      }),
+    );
 
     /**
      * Lambda Layer

@@ -288,6 +288,111 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::IAM::Policy,
     },
+    StockSnalysisDataBucketKeyTest447B7803: {
+      DeletionPolicy: Retain,
+      Properties: {
+        EnableKeyRotation: true,
+        KeyPolicy: {
+          Statement: [
+            {
+              Action: kms:*,
+              Effect: Allow,
+              Principal: {
+                AWS: {
+                  Fn::Join: [
+                    ,
+                    [
+                      arn:,
+                      {
+                        Ref: AWS::Partition,
+                      },
+                      :iam::,
+                      {
+                        Ref: AWS::AccountId,
+                      },
+                      :root,
+                    ],
+                  ],
+                },
+              },
+              Resource: *,
+            },
+            {
+              Action: [
+                kms:Decrypt,
+                kms:GenerateDataKey*,
+              ],
+              Effect: Allow,
+              Principal: {
+                AWS: arn:aws:iam::123456789012:role/example-role,
+              },
+              Resource: *,
+              Sid: Grant Abacus.AI KMS access,
+            },
+          ],
+          Version: 2012-10-17,
+        },
+      },
+      Type: AWS::KMS::Key,
+      UpdateReplacePolicy: Retain,
+    },
+    StockSnalysisDataBucketKeyTestAliasB8803B11: {
+      Properties: {
+        AliasName: alias/data-bucket-key,
+        TargetKeyId: {
+          Fn::GetAtt: [
+            StockSnalysisDataBucketKeyTest447B7803,
+            Arn,
+          ],
+        },
+      },
+      Type: AWS::KMS::Alias,
+    },
+    StockSnalysisDataBucketPolicyTest88A2A91C: {
+      Properties: {
+        Bucket: {
+          Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+        },
+        PolicyDocument: {
+          Statement: [
+            {
+              Action: [
+                s3:GetObject,
+                s3:ListBucket,
+              ],
+              Effect: Allow,
+              Principal: {
+                AWS: arn:aws:iam::123456789012:role/example-role,
+              },
+              Resource: [
+                {
+                  Fn::Join: [
+                    ,
+                    [
+                      {
+                        Fn::GetAtt: [
+                          stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+                          Arn,
+                        ],
+                      },
+                      /*,
+                    ],
+                  ],
+                },
+                {
+                  Fn::GetAtt: [
+                    stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+                    Arn,
+                  ],
+                },
+              ],
+            },
+          ],
+          Version: 2012-10-17,
+        },
+      },
+      Type: AWS::S3::BucketPolicy,
+    },
     StockSnalysisDownloadListedInfoTestF33E65B2: {
       DependsOn: [
         StockSnalysisDownloadListedInfoTestServiceRoleDefaultPolicy730210DD,
@@ -410,6 +515,21 @@ exports[`snapshot test 1`] = `
                     },
                     /*,
                   ],
+                ],
+              },
+            },
+            {
+              Action: [
+                kms:Encrypt,
+                kms:ReEncrypt*,
+                kms:GenerateDataKey*,
+                kms:Decrypt,
+              ],
+              Effect: Allow,
+              Resource: {
+                Fn::GetAtt: [
+                  StockSnalysisDataBucketKeyTest447B7803,
+                  Arn,
                 ],
               },
             },
@@ -550,6 +670,21 @@ exports[`snapshot test 1`] = `
                 ],
               },
             },
+            {
+              Action: [
+                kms:Encrypt,
+                kms:ReEncrypt*,
+                kms:GenerateDataKey*,
+                kms:Decrypt,
+              ],
+              Effect: Allow,
+              Resource: {
+                Fn::GetAtt: [
+                  StockSnalysisDataBucketKeyTest447B7803,
+                  Arn,
+                ],
+              },
+            },
           ],
           Version: 2012-10-17,
         },
@@ -593,6 +728,21 @@ exports[`snapshot test 1`] = `
     stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C: {
       DeletionPolicy: Retain,
       Properties: {
+        BucketEncryption: {
+          ServerSideEncryptionConfiguration: [
+            {
+              ServerSideEncryptionByDefault: {
+                KMSMasterKeyID: {
+                  Fn::GetAtt: [
+                    StockSnalysisDataBucketKeyTest447B7803,
+                    Arn,
+                  ],
+                },
+                SSEAlgorithm: aws:kms,
+              },
+            },
+          ],
+        },
         BucketName: stock-snalysis-data-test-01941fc5-033f-7488-9a8c-8921a4298acc,
       },
       Type: AWS::S3::Bucket,
