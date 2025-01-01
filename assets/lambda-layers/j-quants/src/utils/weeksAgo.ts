@@ -6,10 +6,10 @@ import { format } from 'date-fns';
  * @returns 'yyyy-MM-dd'
  */
 export const weeksAgo = (num: number): string => {
-    const today = new Date();
-    const weeksAgo = new Date(today);
-    weeksAgo.setDate(today.getDate() - num * 7);
-    const dateOnly = format(weeksAgo, 'yyyy-MM-dd');
+  const today = new Date();
+  const weeksAgo = new Date(today);
+  weeksAgo.setDate(today.getDate() - num * 7);
+  const dateOnly = format(weeksAgo, 'yyyy-MM-dd');
 
-    return dateOnly;
+  return dateOnly;
 };

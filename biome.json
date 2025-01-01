@@ -6,29 +6,44 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": false,
-    "ignore": ["cdk.out/", "coverage/", "cdk.json", "pnpm-lock.json"]
+    "ignore": ["cdk.out", "coverage", "*.js", "*.d.ts"]
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUndeclaredVariables": "error",
+        "noUnusedVariables": "error",
+        "useImportExtensions": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "warn",
+        "useImportType": "off",
+        "noNamespaceImport": "off"
+      },
+      "complexity": {
+        "noUselessConstructor": "off"
+      }
+    }
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
     "lineWidth": 120,
-    "indentWidth": 2
+    "indentWidth": 2,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "linter": {
+      "enabled": true
+    },
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingCommas": "all"
+    }
   },
   "organizeImports": {
     "enabled": true
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true
-    }
-  },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "single",
-      "trailingCommas": "all",
-      "indentWidth": 4
-    }
   }
 }

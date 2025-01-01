@@ -6,10 +6,10 @@ import * as glob from 'glob';
  * @param targetPath Path to be deleted
  */
 const deleteRecursively = (targetPath: string): void => {
-    if (!fs.existsSync(targetPath)) return; // Skip if the path does not exist
+  if (!fs.existsSync(targetPath)) return; // Skip if the path does not exist
 
-    fs.rmSync(targetPath, { recursive: true, force: true });
-}
+  fs.rmSync(targetPath, { recursive: true, force: true });
+};
 
 /**
  * Delete files and directories based on the specified patterns
@@ -17,37 +17,37 @@ const deleteRecursively = (targetPath: string): void => {
  * @param rootDir Root directory to start the search
  */
 const cleanupGeneratedFiles = (patterns: string[], rootDir: string): void => {
-    // Separate `node_modules` to delete it last
-    const otherPatterns = patterns.filter((pattern) => pattern !== 'node_modules');
-    const nodeModulesPattern = patterns.filter((pattern) => pattern === 'node_modules');
+  // Separate `node_modules` to delete it last
+  const otherPatterns = patterns.filter((pattern) => pattern !== 'node_modules');
+  const nodeModulesPattern = patterns.filter((pattern) => pattern === 'node_modules');
 
-    // Delete other patterns first
-    for (const pattern of otherPatterns) {
-        const matches = glob.sync(pattern, { cwd: rootDir, absolute: true });
-        for (const match of matches) {
-            console.log(`Deleting: ${match}`);
-            deleteRecursively(match);
-        }
+  // Delete other patterns first
+  for (const pattern of otherPatterns) {
+    const matches = glob.sync(pattern, { cwd: rootDir, absolute: true });
+    for (const match of matches) {
+      console.log(`Deleting: ${match}`);
+      deleteRecursively(match);
     }
+  }
 
-    // Delete `node_modules` last
-    for (const pattern of nodeModulesPattern) {
-        const matches = glob.sync(pattern, { cwd: rootDir, absolute: true });
-        for (const match of matches) {
-            console.log(`Deleting (last): ${match}`);
-            deleteRecursively(match);
-        }
+  // Delete `node_modules` last
+  for (const pattern of nodeModulesPattern) {
+    const matches = glob.sync(pattern, { cwd: rootDir, absolute: true });
+    for (const match of matches) {
+      console.log(`Deleting (last): ${match}`);
+      deleteRecursively(match);
     }
-}
+  }
+};
 
 // Specify the patterns to delete
 const deletePatterns: string[] = [
-    'cdk.out',          // CDK output directory
-    '**/*.d.ts',        // Type definition files
-    '**/*.js',          // JavaScript files
-    '**/*.js.map',      // Source maps
-    '**/dist',          // Build artifacts
-    '**/node_modules'   // node_modules directory (deleted last)
+  'cdk.out', // CDK output directory
+  '**/*.d.ts', // Type definition files
+  '**/*.js', // JavaScript files
+  '**/*.js.map', // Source maps
+  '**/dist', // Build artifacts
+  '**/node_modules', // node_modules directory (deleted last)
 ];
 
 // Root directory of the project
