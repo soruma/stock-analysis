@@ -24,9 +24,13 @@ jobs:
         cache: 'pnpm'
     - name: Install dependencies
       run: pnpm install
-    - name: Install lambdas dependencies
+    - name: Install and build the stock-analysis-modules
       run: |
-        pnpm download-listed-info install
-        pnpm download-prices-daily-quotes install
+        pnpm stock-analysis-modules install
+        pnpm stock-analysis-modules build
+    - name: Install and build the j-quants
+      run: |
+        pnpm j-quants install
+        pnpm j-quants build
     - run: pnpm run build
     - run: pnpm test
