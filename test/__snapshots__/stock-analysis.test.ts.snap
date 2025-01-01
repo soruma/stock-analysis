@@ -147,7 +147,18 @@ exports[`snapshot test 1`] = `
               ],
             },
             Id: Target0,
-            Input: {"message":"Scheduled event for download-listed-info"},
+            Input: {
+              Fn::Join: [
+                ,
+                [
+                  {"message":"Scheduled event for ,
+                  {
+                    Ref: StockSnalysisDownloadListedInfoTestF33E65B2,
+                  },
+                  "},
+                ],
+              ],
+            },
           },
           {
             Arn: {
@@ -157,7 +168,18 @@ exports[`snapshot test 1`] = `
               ],
             },
             Id: Target1,
-            Input: {"message":"Scheduled event for download-prices-daily-quotes"},
+            Input: {
+              Fn::Join: [
+                ,
+                [
+                  {"message":"Scheduled event for ,
+                  {
+                    Ref: StockSnalysisDownloadPricesDailyQuotesTest1F92F84A,
+                  },
+                  "},
+                ],
+              ],
+            },
           },
         ],
       },

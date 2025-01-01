@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { Architecture, Code, LayerVersion, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { Architecture, Code, IFunction, LayerVersion, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Bucket, BucketPolicy } from 'aws-cdk-lib/aws-s3';
 import type { Construct } from 'constructs';
@@ -65,24 +65,7 @@ export class StockAnalysisStack extends cdk.Stack {
     /**
      * EventBridge
      */
-    const rule = new Rule(this, 'DailyRule', {
-      schedule: Schedule.cron({ minute: '0', hour: '17' }),
-    });
-
-    rule.addTarget(
-      new LambdaFunction(downloadListedInfoFunction, {
-        event: RuleTargetInput.fromObject({
-          message: 'Scheduled event for download-listed-info',
-        }),
-      }),
-    );
-    rule.addTarget(
-      new LambdaFunction(downloadPricesDailyQuotesFunction, {
-        event: RuleTargetInput.fromObject({
-          message: 'Scheduled event for download-prices-daily-quotes',
-        }),
-      }),
-    );
+    this.createEventRule([downloadListedInfoFunction, downloadPricesDailyQuotesFunction]);
   }
 
   createDataBucket(props: StockAnalysisLambdaStackProps): Bucket {
@@ -168,6 +151,22 @@ export class StockAnalysisStack extends cdk.Stack {
         externalModules: ['@aws-sdk', 'j-quants'],
       },
     });
+  }
+
+  createEventRule(targetFunctions: IFunction[]): void {
+    const rule = new Rule(this, 'DailyRule', {
+      schedule: Schedule.cron({ minute: '0', hour: '17' }),
+    });
+
+    for (const targetFunction of targetFunctions) {
+      rule.addTarget(
+        new LambdaFunction(targetFunction, {
+          event: RuleTargetInput.fromObject({
+            message: `Scheduled event for ${targetFunction.functionName}`,
+          }),
+        }),
+      );
+    }
   }
 
   private lambdaPath(lambdaName: string, handlerPath: string[]): string {
