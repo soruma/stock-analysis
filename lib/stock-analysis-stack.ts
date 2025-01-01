@@ -65,7 +65,7 @@ export class StockAnalysisStack extends cdk.Stack {
     /**
      * EventBridge
      */
-    this.createEventRule([downloadListedInfoFunction, downloadPricesDailyQuotesFunction]);
+    this.createEventRule(props, [downloadListedInfoFunction, downloadPricesDailyQuotesFunction]);
   }
 
   createDataBucket(props: StockAnalysisLambdaStackProps): Bucket {
@@ -153,8 +153,8 @@ export class StockAnalysisStack extends cdk.Stack {
     });
   }
 
-  createEventRule(targetFunctions: IFunction[]): void {
-    const rule = new Rule(this, 'DailyRule', {
+  createEventRule(props: StockAnalysisLambdaStackProps, targetFunctions: IFunction[]): void {
+    const rule = new Rule(this, props.resourceName.eventRoleName('daily-role'), {
       schedule: Schedule.cron({ minute: '0', hour: '17' }),
     });
 

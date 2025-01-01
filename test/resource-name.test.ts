@@ -28,6 +28,11 @@ describe('ResourceName', () => {
     expect(lambdaName).toBe('MySystemMyFunctionDev');
   });
 
+  it('should generate the correct Event role name', () => {
+    const eventRoleName = resourceName.eventRoleName('my-event-role');
+    expect(eventRoleName).toBe('MySystemMyEventRoleDev');
+  });
+
   it('should generate the correct Stack name', () => {
     const stackName = resourceName.stackName('my-stack');
     expect(stackName).toBe('MySystemMyStackDev');

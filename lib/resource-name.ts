@@ -32,6 +32,10 @@ export class ResourceName {
     return this.baseName(name);
   }
 
+  public eventRoleName(name: string) {
+    return this.baseName(name);
+  }
+
   public stackName(name: string) {
     return this.baseName(name);
   }

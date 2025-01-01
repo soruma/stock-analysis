@@ -134,95 +134,6 @@ exports[`snapshot test 1`] = `
     },
   },
   Resources: {
-    DailyRule7A0FEF67: {
-      Properties: {
-        ScheduleExpression: cron(0 17 * * ? *),
-        State: ENABLED,
-        Targets: [
-          {
-            Arn: {
-              Fn::GetAtt: [
-                StockSnalysisDownloadListedInfoTestF33E65B2,
-                Arn,
-              ],
-            },
-            Id: Target0,
-            Input: {
-              Fn::Join: [
-                ,
-                [
-                  {"message":"Scheduled event for ,
-                  {
-                    Ref: StockSnalysisDownloadListedInfoTestF33E65B2,
-                  },
-                  "},
-                ],
-              ],
-            },
-          },
-          {
-            Arn: {
-              Fn::GetAtt: [
-                StockSnalysisDownloadPricesDailyQuotesTest1F92F84A,
-                Arn,
-              ],
-            },
-            Id: Target1,
-            Input: {
-              Fn::Join: [
-                ,
-                [
-                  {"message":"Scheduled event for ,
-                  {
-                    Ref: StockSnalysisDownloadPricesDailyQuotesTest1F92F84A,
-                  },
-                  "},
-                ],
-              ],
-            },
-          },
-        ],
-      },
-      Type: AWS::Events::Rule,
-    },
-    DailyRuleAllowEventRuleStockSnalysisBaseTestStockSnalysisDownloadListedInfoTest067D3AC4A87C6FA8: {
-      Properties: {
-        Action: lambda:InvokeFunction,
-        FunctionName: {
-          Fn::GetAtt: [
-            StockSnalysisDownloadListedInfoTestF33E65B2,
-            Arn,
-          ],
-        },
-        Principal: events.amazonaws.com,
-        SourceArn: {
-          Fn::GetAtt: [
-            DailyRule7A0FEF67,
-            Arn,
-          ],
-        },
-      },
-      Type: AWS::Lambda::Permission,
-    },
-    DailyRuleAllowEventRuleStockSnalysisBaseTestStockSnalysisDownloadPricesDailyQuotesTest934F69C98C4D3209: {
-      Properties: {
-        Action: lambda:InvokeFunction,
-        FunctionName: {
-          Fn::GetAtt: [
-            StockSnalysisDownloadPricesDailyQuotesTest1F92F84A,
-            Arn,
-          ],
-        },
-        Principal: events.amazonaws.com,
-        SourceArn: {
-          Fn::GetAtt: [
-            DailyRule7A0FEF67,
-            Arn,
-          ],
-        },
-      },
-      Type: AWS::Lambda::Permission,
-    },
     LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A: {
       DependsOn: [
         LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB,
@@ -309,6 +220,95 @@ exports[`snapshot test 1`] = `
         ],
       },
       Type: AWS::IAM::Policy,
+    },
+    StockSnalysisDailyRoleTestAllowEventRuleStockSnalysisBaseTestStockSnalysisDownloadListedInfoTest067D3AC448BDFE9C: {
+      Properties: {
+        Action: lambda:InvokeFunction,
+        FunctionName: {
+          Fn::GetAtt: [
+            StockSnalysisDownloadListedInfoTestF33E65B2,
+            Arn,
+          ],
+        },
+        Principal: events.amazonaws.com,
+        SourceArn: {
+          Fn::GetAtt: [
+            StockSnalysisDailyRoleTestFB6A5C96,
+            Arn,
+          ],
+        },
+      },
+      Type: AWS::Lambda::Permission,
+    },
+    StockSnalysisDailyRoleTestAllowEventRuleStockSnalysisBaseTestStockSnalysisDownloadPricesDailyQuotesTest934F69C92DFACA7F: {
+      Properties: {
+        Action: lambda:InvokeFunction,
+        FunctionName: {
+          Fn::GetAtt: [
+            StockSnalysisDownloadPricesDailyQuotesTest1F92F84A,
+            Arn,
+          ],
+        },
+        Principal: events.amazonaws.com,
+        SourceArn: {
+          Fn::GetAtt: [
+            StockSnalysisDailyRoleTestFB6A5C96,
+            Arn,
+          ],
+        },
+      },
+      Type: AWS::Lambda::Permission,
+    },
+    StockSnalysisDailyRoleTestFB6A5C96: {
+      Properties: {
+        ScheduleExpression: cron(0 17 * * ? *),
+        State: ENABLED,
+        Targets: [
+          {
+            Arn: {
+              Fn::GetAtt: [
+                StockSnalysisDownloadListedInfoTestF33E65B2,
+                Arn,
+              ],
+            },
+            Id: Target0,
+            Input: {
+              Fn::Join: [
+                ,
+                [
+                  {"message":"Scheduled event for ,
+                  {
+                    Ref: StockSnalysisDownloadListedInfoTestF33E65B2,
+                  },
+                  "},
+                ],
+              ],
+            },
+          },
+          {
+            Arn: {
+              Fn::GetAtt: [
+                StockSnalysisDownloadPricesDailyQuotesTest1F92F84A,
+                Arn,
+              ],
+            },
+            Id: Target1,
+            Input: {
+              Fn::Join: [
+                ,
+                [
+                  {"message":"Scheduled event for ,
+                  {
+                    Ref: StockSnalysisDownloadPricesDailyQuotesTest1F92F84A,
+                  },
+                  "},
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      Type: AWS::Events::Rule,
     },
     StockSnalysisDataBucketKeyTest447B7803: {
       DeletionPolicy: Retain,
