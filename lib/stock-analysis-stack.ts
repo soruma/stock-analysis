@@ -23,49 +23,13 @@ interface StockAnalysisLambdaStackProps extends cdk.StackProps {
 }
 
 export class StockAnalysisStack extends cdk.Stack {
-  dataBucketName: string;
-
   constructor(scope: Construct, id: string, props: StockAnalysisLambdaStackProps) {
     super(scope, id, props);
-
-    this.dataBucketName = props.resourceName.s3Name('data');
-
-    /**
-     * KMS
-     */
-    const dataBucketKey = new Key(this, props.resourceName.kmsName('data-bucket-key'), {
-      alias: 'alias/data-bucket-key',
-      enableKeyRotation: true,
-    });
-    dataBucketKey.addToResourcePolicy(
-      new PolicyStatement({
-        sid: 'Grant Abacus.AI KMS access',
-        effect: Effect.ALLOW,
-        principals: [new ArnPrincipal(props.abacusRoleArn)],
-        actions: ['kms:Decrypt', 'kms:GenerateDataKey*'],
-        resources: ['*'],
-      }),
-    );
 
     /**
      * S3
      */
-    const dataBucket = new Bucket(this, this.dataBucketName, {
-      bucketName: this.dataBucketName,
-      encryptionKey: dataBucketKey,
-    });
-
-    const bucketPolicy = new BucketPolicy(this, props.resourceName.bucketPolicyName('data-bucket-policy'), {
-      bucket: dataBucket,
-    });
-    bucketPolicy.document.addStatements(
-      new PolicyStatement({
-        effect: Effect.ALLOW,
-        principals: [new ArnPrincipal(props.abacusRoleArn)],
-        actions: ['s3:GetObject', 's3:ListBucket'],
-        resources: [`${dataBucket.bucketArn}/*`, dataBucket.bucketArn],
-      }),
-    );
+    const dataBucket = this.createDataBucket(props);
 
     /**
      * Lambda Layer
@@ -86,8 +50,11 @@ export class StockAnalysisStack extends cdk.Stack {
     /**
      * Lambda
      */
-    const downloadListedInfoFunction = this.downloadListedInfoFunction(props, [modulesLambdaLayer, jQuantsLambdaLayer]);
-    const downloadPricesDailyQuotesFunction = this.downloadPricesDailyQuotesFunction(props, [
+    const downloadListedInfoFunction = this.createDownloadListedInfoFunction(props, dataBucket, [
+      modulesLambdaLayer,
+      jQuantsLambdaLayer,
+    ]);
+    const downloadPricesDailyQuotesFunction = this.createDownloadPricesDailyQuotesFunction(props, dataBucket, [
       modulesLambdaLayer,
       jQuantsLambdaLayer,
     ]);
@@ -118,7 +85,44 @@ export class StockAnalysisStack extends cdk.Stack {
     );
   }
 
-  downloadListedInfoFunction(props: StockAnalysisLambdaStackProps, layers: LayerVersion[]) {
+  createDataBucket(props: StockAnalysisLambdaStackProps): Bucket {
+    const dataBucketName = props.resourceName.s3Name('data');
+
+    const dataBucketKey = new Key(this, props.resourceName.kmsName('data-bucket-key'), {
+      alias: 'alias/data-bucket-key',
+      enableKeyRotation: true,
+    });
+    dataBucketKey.addToResourcePolicy(
+      new PolicyStatement({
+        sid: 'Grant Abacus.AI KMS access',
+        effect: Effect.ALLOW,
+        principals: [new ArnPrincipal(props.abacusRoleArn)],
+        actions: ['kms:Decrypt', 'kms:GenerateDataKey*'],
+        resources: ['*'],
+      }),
+    );
+
+    const dataBucket = new Bucket(this, dataBucketName, {
+      bucketName: dataBucketName,
+      encryptionKey: dataBucketKey,
+    });
+
+    const bucketPolicy = new BucketPolicy(this, props.resourceName.bucketPolicyName('data-bucket-policy'), {
+      bucket: dataBucket,
+    });
+    bucketPolicy.document.addStatements(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        principals: [new ArnPrincipal(props.abacusRoleArn)],
+        actions: ['s3:GetObject', 's3:ListBucket'],
+        resources: [`${dataBucket.bucketArn}/*`, dataBucket.bucketArn],
+      }),
+    );
+
+    return dataBucket;
+  }
+
+  createDownloadListedInfoFunction(props: StockAnalysisLambdaStackProps, dataBucket: Bucket, layers: LayerVersion[]) {
     const LambdaName = 'download-listed-info';
 
     return new NodejsFunction(this, props.resourceName.lambdaName(LambdaName), {
@@ -130,7 +134,7 @@ export class StockAnalysisStack extends cdk.Stack {
       environment: {
         JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
         JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
-        S3_BUCKET_NAME: this.dataBucketName,
+        S3_BUCKET_NAME: dataBucket.bucketName,
       },
       logRetention: RetentionDays.THIRTEEN_MONTHS,
       layers,
@@ -140,7 +144,11 @@ export class StockAnalysisStack extends cdk.Stack {
     });
   }
 
-  downloadPricesDailyQuotesFunction(props: StockAnalysisLambdaStackProps, layers: LayerVersion[]) {
+  createDownloadPricesDailyQuotesFunction(
+    props: StockAnalysisLambdaStackProps,
+    dataBucket: Bucket,
+    layers: LayerVersion[],
+  ) {
     const LambdaName = 'download-prices-daily-quotes';
 
     return new NodejsFunction(this, props.resourceName.lambdaName(LambdaName), {
@@ -152,7 +160,7 @@ export class StockAnalysisStack extends cdk.Stack {
       environment: {
         JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
         JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
-        S3_BUCKET_NAME: this.dataBucketName,
+        S3_BUCKET_NAME: dataBucket.bucketName,
       },
       logRetention: RetentionDays.THIRTEEN_MONTHS,
       layers,
