@@ -1,7 +1,5 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { getEnvVariable } from 'j-quants';
-
-import type { ListedInfo } from '../requests';
+import { ListedInfo, getEnvVariable } from 'j-quants';
 
 const s3Prefix = 'info';
 
