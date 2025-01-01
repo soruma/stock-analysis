@@ -1,4 +1,4 @@
-import { weeksAgo } from './weeksAgo';
+import { weeksAgo } from 'j-quants';
 
 interface DateProps {
     date: string;

@@ -22,7 +22,9 @@
     "cleanup-generated-files": "ts-node bin/cleanup-generated-files.ts",
     "create-renge-date": "ts-node bin/create-renge-date.ts",
     "download-listed-info": "pnpm --filter download-listed-info",
-    "download-prices-daily-quotes": "pnpm --filter download-prices-daily-quotes"
+    "download-prices-daily-quotes": "pnpm --filter download-prices-daily-quotes",
+    "stock-analysis-modules": "pnpm --filter stock-analysis-modules",
+    "j-quants": "pnpm --filter j-quants"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

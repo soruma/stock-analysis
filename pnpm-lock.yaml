@@ -46,6 +46,31 @@ importers:
         specifier: ^2.1.6
         version: 2.1.6(@types/node@22.7.9)
 
+  assets/lambda-layers/j-quants:
+    dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.701.0
+        version: 3.717.0
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.16
+        version: 20.17.10
+      aws-lambda:
+        specifier: ^1.0.7
+        version: 1.0.7
+      typescript:
+        specifier: ~5.6.3
+        version: 5.6.3
+
+  assets/lambda-layers/stock-analysis-modules:
+    dependencies:
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
+
   assets/lambdas/download-listed-info:
     dependencies:
       '@aws-sdk/client-s3':
@@ -54,6 +79,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      j-quants:
+        specifier: workspace:*
+        version: link:../../lambda-layers/j-quants
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.132
@@ -73,6 +101,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      j-quants:
+        specifier: workspace:*
+        version: link:../../lambda-layers/j-quants
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.132

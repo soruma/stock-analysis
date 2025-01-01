@@ -18,6 +18,11 @@ describe('ResourceName', () => {
         expect(s3Name).toBe('my-system-my-bucket-dev');
     });
 
+    it('should generate the correct lambda layer version name', () => {
+        const layerName = resourceName.lambdaLayerVersionName('my-lambda-layer');
+        expect(layerName).toBe('MySystemMyLambdaLayerDev');
+    });
+
     it('should generate the correct Lambda name', () => {
         const lambdaName = resourceName.lambdaName('my-function');
         expect(lambdaName).toBe('MySystemMyFunctionDev');

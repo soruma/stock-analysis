@@ -13,6 +13,10 @@ The following commands will install dependencies, build the project, and synthes
 
 ```shell
 pnpm install
+pnpm stock-analysis-modules install
+pnpm stock-analysis-modules build
+pnpm j-quants install
+pnpm j-quants build
 pnpm build
 pnpm dlx cdk synth
 ```

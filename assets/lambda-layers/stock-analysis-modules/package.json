@@ -1,0 +1,14 @@
+{
+  "name": "stock-analysis-modules",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "author": "soruma",
+  "license": "MIT",
+  "scripts": {
+    "build": "mkdir -p dist/layer/nodejs/node_modules && cp -R node_modules/* dist/layer/nodejs/node_modules"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0"
+  }
+}

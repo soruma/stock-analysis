@@ -311,6 +311,14 @@ exports[`snapshot test 1`] = `
           },
         },
         Handler: index.handler,
+        Layers: [
+          {
+            Ref: StockSnalysisStockAnalysisModulesTest94FBC596,
+          },
+          {
+            Ref: StockSnalysisJQuantsTest4F63EB39,
+          },
+        ],
         Role: {
           Fn::GetAtt: [
             StockSnalysisDownloadListedInfoTestServiceRole90EA6BCB,
@@ -440,6 +448,14 @@ exports[`snapshot test 1`] = `
           },
         },
         Handler: index.handler,
+        Layers: [
+          {
+            Ref: StockSnalysisStockAnalysisModulesTest94FBC596,
+          },
+          {
+            Ref: StockSnalysisJQuantsTest4F63EB39,
+          },
+        ],
         Role: {
           Fn::GetAtt: [
             StockSnalysisDownloadPricesDailyQuotesTestServiceRole05189745,
@@ -545,6 +561,34 @@ exports[`snapshot test 1`] = `
         ],
       },
       Type: AWS::IAM::Policy,
+    },
+    StockSnalysisJQuantsTest4F63EB39: {
+      Properties: {
+        CompatibleArchitectures: [
+          arm64,
+        ],
+        Content: {
+          S3Bucket: {
+            Fn::Sub: cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region},
+          },
+          S3Key: hashed.zip,
+        },
+      },
+      Type: AWS::Lambda::LayerVersion,
+    },
+    StockSnalysisStockAnalysisModulesTest94FBC596: {
+      Properties: {
+        CompatibleArchitectures: [
+          arm64,
+        ],
+        Content: {
+          S3Bucket: {
+            Fn::Sub: cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region},
+          },
+          S3Key: hashed.zip,
+        },
+      },
+      Type: AWS::Lambda::LayerVersion,
     },
     stocksnalysisdatatest62DB6E1C: {
       DeletionPolicy: Retain,

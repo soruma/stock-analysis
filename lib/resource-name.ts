@@ -16,6 +16,10 @@ export class ResourceName {
         return camelToKebabCase(this.baseName(name));
     }
 
+    public lambdaLayerVersionName(name: string) {
+        return this.baseName(name);
+    }
+
     public lambdaName(name: string) {
         return this.baseName(name);
     }
