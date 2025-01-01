@@ -12,9 +12,9 @@ export class ResourceName {
         return `${this.systemName}${str}${this.systemEnv}`;
     }
 
-    public s3Name(name: string) {
-        return camelToKebabCase(this.baseName(name));
-    }
+  public s3Name(name: string) {
+    return `${camelToKebabCase(this.baseName(name))}-01941fc5-033f-7488-9a8c-8921a4298acc`;
+  }
 
     public lambdaLayerVersionName(name: string) {
         return this.baseName(name);

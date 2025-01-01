@@ -307,7 +307,7 @@ exports[`snapshot test 1`] = `
           Variables: {
             JQUANTS_API_MAIL_ADDRESS: test@example.com,
             JQUANTS_API_PASSWORD: password,
-            S3_BUCKET_NAME: stock-snalysis-data-test,
+            S3_BUCKET_NAME: stock-snalysis-data-test-01941fc5-033f-7488-9a8c-8921a4298acc,
           },
         },
         Handler: index.handler,
@@ -404,7 +404,7 @@ exports[`snapshot test 1`] = `
                   [
                     {
                       Fn::GetAtt: [
-                        stocksnalysisdatatest62DB6E1C,
+                        stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
                         Arn,
                       ],
                     },
@@ -444,7 +444,7 @@ exports[`snapshot test 1`] = `
           Variables: {
             JQUANTS_API_MAIL_ADDRESS: test@example.com,
             JQUANTS_API_PASSWORD: password,
-            S3_BUCKET_NAME: stock-snalysis-data-test,
+            S3_BUCKET_NAME: stock-snalysis-data-test-01941fc5-033f-7488-9a8c-8921a4298acc,
           },
         },
         Handler: index.handler,
@@ -541,7 +541,7 @@ exports[`snapshot test 1`] = `
                   [
                     {
                       Fn::GetAtt: [
-                        stocksnalysisdatatest62DB6E1C,
+                        stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
                         Arn,
                       ],
                     },
@@ -590,10 +590,10 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::Lambda::LayerVersion,
     },
-    stocksnalysisdatatest62DB6E1C: {
+    stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C: {
       DeletionPolicy: Retain,
       Properties: {
-        BucketName: stock-snalysis-data-test,
+        BucketName: stock-snalysis-data-test-01941fc5-033f-7488-9a8c-8921a4298acc,
       },
       Type: AWS::S3::Bucket,
       UpdateReplacePolicy: Retain,

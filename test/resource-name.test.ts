@@ -14,9 +14,9 @@ describe('ResourceName', () => {
     });
 
     it('should generate the correct S3 name in kebab-case', () => {
-        const s3Name = resourceName.s3Name('my-bucket');
-        expect(s3Name).toBe('my-system-my-bucket-dev');
-    });
+    const s3Name = resourceName.s3Name('my-bucket');
+    expect(s3Name).toBe('my-system-my-bucket-dev-01941fc5-033f-7488-9a8c-8921a4298acc');
+  });
 
     it('should generate the correct lambda layer version name', () => {
         const layerName = resourceName.lambdaLayerVersionName('my-lambda-layer');
