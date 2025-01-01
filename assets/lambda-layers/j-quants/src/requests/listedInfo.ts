@@ -1,4 +1,4 @@
-interface ListedInfoProps {
+export interface ListedInfoProps {
   idToken: string;
   date?: string;
   code?: string;
