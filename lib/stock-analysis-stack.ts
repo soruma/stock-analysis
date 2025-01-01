@@ -1,17 +1,17 @@
-import * as cdk from 'aws-cdk-lib';
-import { Architecture, Code, IFunction, LayerVersion, Runtime } from 'aws-cdk-lib/aws-lambda';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Bucket, BucketPolicy } from 'aws-cdk-lib/aws-s3';
-import type { Construct } from 'constructs';
-
 import * as path from 'node:path';
+import * as cdk from 'aws-cdk-lib';
 import * as dotenv from 'dotenv';
 
 import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { ArnPrincipal, Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Key } from 'aws-cdk-lib/aws-kms';
+import { Architecture, Code, IFunction, LayerVersion, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
+import { Bucket, BucketPolicy } from 'aws-cdk-lib/aws-s3';
+import type { Construct } from 'constructs';
+
 import { ResourceName } from './resource-name';
 
 dotenv.config({ path: path.resolve(__dirname, '../.jquants.env') });
