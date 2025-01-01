@@ -136,7 +136,7 @@ exports[`snapshot test 1`] = `
   Resources: {
     DailyRule7A0FEF67: {
       Properties: {
-        ScheduleExpression: cron(0 15 * * ? *),
+        ScheduleExpression: cron(0 17 * * ? *),
         State: ENABLED,
         Targets: [
           {

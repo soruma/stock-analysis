@@ -65,7 +65,7 @@ export class StockAnalysisStack extends cdk.Stack {
      * EventBridge
      */
     const rule = new Rule(this, 'DailyRule', {
-      schedule: Schedule.cron({ minute: '0', hour: '15' }),
+      schedule: Schedule.cron({ minute: '0', hour: '17' }),
     });
 
     rule.addTarget(
