@@ -238,7 +238,7 @@ exports[`snapshot test 1`] = `
             Columns: [
               {
                 Name: daily_quotes,
-                Type: array<struct<Date:string,Code:string,Open:int,High:int,Low:int,Close:int,UpperLimit:string,LowerLimit:string,Volume:int,TurnoverValue:int,AdjustmentFactor:int,AdjustmentOpen:int,AdjustmentHigh:int,AdjustmentLow:int,AdjustmentClose:int,AdjustmentVolume:int>>,
+                Type: array<struct<Date:string,Code:string,Open:double,High:double,Low:double,Close:double,UpperLimit:string,LowerLimit:string,Volume:int,TurnoverValue:double,AdjustmentFactor:double,AdjustmentOpen:double,AdjustmentHigh:double,AdjustmentLow:double,AdjustmentClose:double,AdjustmentVolume:double>>,
               },
             ],
             InputFormat: org.apache.hadoop.mapred.TextInputFormat,

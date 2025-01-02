@@ -88,7 +88,7 @@ export class StockAnalysisStack extends cdk.Stack {
           columns: [
             {
               name: 'daily_quotes',
-              type: 'array<struct<Date:string,Code:string,Open:int,High:int,Low:int,Close:int,UpperLimit:string,LowerLimit:string,Volume:int,TurnoverValue:int,AdjustmentFactor:int,AdjustmentOpen:int,AdjustmentHigh:int,AdjustmentLow:int,AdjustmentClose:int,AdjustmentVolume:int>>',
+              type: 'array<struct<Date:string,Code:string,Open:double,High:double,Low:double,Close:double,UpperLimit:string,LowerLimit:string,Volume:int,TurnoverValue:double,AdjustmentFactor:double,AdjustmentOpen:double,AdjustmentHigh:double,AdjustmentLow:double,AdjustmentClose:double,AdjustmentVolume:double>>',
             },
           ],
           location: `s3://${dataBucket.bucketName}/daily_quotes/`,
