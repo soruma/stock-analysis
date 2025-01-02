@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 
 import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
+import { CfnDatabase, CfnTable } from 'aws-cdk-lib/aws-glue';
 import { ArnPrincipal, Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Architecture, Code, IFunction, LayerVersion, Runtime } from 'aws-cdk-lib/aws-lambda';
@@ -30,6 +31,84 @@ export class StockAnalysisStack extends cdk.Stack {
      * S3
      */
     const dataBucket = this.createDataBucket(props);
+
+    new Bucket(this, props.resourceName.s3Name('query'), {
+      bucketName: props.resourceName.s3Name('query'),
+    });
+
+    /**
+     * Glue
+     */
+    const glueDatabase = new CfnDatabase(this, props.resourceName.glueDatabaseName(), {
+      catalogId: this.account,
+      databaseInput: {
+        name: props.resourceName.glueDatabaseName(),
+      },
+    });
+
+    new CfnTable(this, props.resourceName.glueTableId('info'), {
+      catalogId: this.account,
+      databaseName: glueDatabase.ref,
+      tableInput: {
+        name: props.resourceName.glueTableName('info'),
+        tableType: 'EXTERNAL_TABLE',
+        storageDescriptor: {
+          columns: [
+            {
+              name: 'info',
+              type: 'array<struct<Date:string,Code:string,CompanyName:string,CompanyNameEnglish:string,Sector17Code:string,Sector17CodeName:string,Sector33Code:string,Sector33CodeName:string,ScaleCategory:string,MarketCode:string,MarketCodeName:string>>',
+            },
+          ],
+          location: `s3://${dataBucket.bucketName}/info/`,
+          inputFormat: 'org.apache.hadoop.mapred.TextInputFormat',
+          outputFormat: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
+          serdeInfo: {
+            serializationLibrary: 'org.openx.data.jsonserde.JsonSerDe',
+            parameters: {
+              'ignore.malformed.json': 'FALSE',
+              'dots.in.keys': 'FALSE',
+              'case.insensitive': 'TRUE',
+              mapping: 'TRUE',
+            },
+          },
+        },
+        parameters: {
+          classification: 'json',
+        },
+      },
+    });
+
+    new CfnTable(this, props.resourceName.glueTableId('daily-quotes'), {
+      catalogId: this.account,
+      databaseName: glueDatabase.ref,
+      tableInput: {
+        name: props.resourceName.glueTableName('daily-quotes'),
+        tableType: 'EXTERNAL_TABLE',
+        storageDescriptor: {
+          columns: [
+            {
+              name: 'daily_quotes',
+              type: 'array<struct<Date:string,Code:string,Open:int,High:int,Low:int,Close:int,UpperLimit:string,LowerLimit:string,Volume:int,TurnoverValue:int,AdjustmentFactor:int,AdjustmentOpen:int,AdjustmentHigh:int,AdjustmentLow:int,AdjustmentClose:int,AdjustmentVolume:int>>',
+            },
+          ],
+          location: `s3://${dataBucket.bucketName}/daily_quotes/`,
+          inputFormat: 'org.apache.hadoop.mapred.TextInputFormat',
+          outputFormat: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
+          serdeInfo: {
+            serializationLibrary: 'org.openx.data.jsonserde.JsonSerDe',
+            parameters: {
+              'ignore.malformed.json': 'FALSE',
+              'dots.in.keys': 'FALSE',
+              'case.insensitive': 'TRUE',
+              mapping: 'TRUE',
+            },
+          },
+        },
+        parameters: {
+          classification: 'json',
+        },
+      },
+    });
 
     /**
      * Lambda Layer

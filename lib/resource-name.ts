@@ -20,6 +20,22 @@ export class ResourceName {
     return this.baseName(name);
   }
 
+  public glueDatabaseId() {
+    return `${this.baseName('GlueDatabase')}`;
+  }
+
+  public glueDatabaseName() {
+    return camelToSnakeCase(this.baseName(''));
+  }
+
+  public glueTableId(name: string) {
+    return `${this.baseName(name)}GlueTable`;
+  }
+
+  public glueTableName(name: string) {
+    return camelToSnakeCase(this.baseName(name));
+  }
+
   public kmsName(name: string) {
     return this.baseName(name);
   }
@@ -65,4 +81,11 @@ export const kebabToCamelCase = (input: string, options?: { capitalizeFirst?: bo
   }
 
   return result;
+};
+
+export const camelToSnakeCase = (input: string): string => {
+  return input
+    .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
+    .replace(/([A-Z])([A-Z][a-z0-9])/g, '$1_$2')
+    .toLowerCase();
 };

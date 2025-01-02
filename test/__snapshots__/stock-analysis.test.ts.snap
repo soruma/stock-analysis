@@ -221,6 +221,55 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::IAM::Policy,
     },
+    StockSnalysisDailyQuotesTestGlueTable: {
+      Properties: {
+        CatalogId: {
+          Ref: AWS::AccountId,
+        },
+        DatabaseName: {
+          Ref: stocksnalysistest,
+        },
+        TableInput: {
+          Name: stock_snalysis_daily_quotes_test,
+          Parameters: {
+            classification: json,
+          },
+          StorageDescriptor: {
+            Columns: [
+              {
+                Name: daily_quotes,
+                Type: array<struct<Date:string,Code:string,Open:int,High:int,Low:int,Close:int,UpperLimit:string,LowerLimit:string,Volume:int,TurnoverValue:int,AdjustmentFactor:int,AdjustmentOpen:int,AdjustmentHigh:int,AdjustmentLow:int,AdjustmentClose:int,AdjustmentVolume:int>>,
+              },
+            ],
+            InputFormat: org.apache.hadoop.mapred.TextInputFormat,
+            Location: {
+              Fn::Join: [
+                ,
+                [
+                  s3://,
+                  {
+                    Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+                  },
+                  /daily_quotes/,
+                ],
+              ],
+            },
+            OutputFormat: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat,
+            SerdeInfo: {
+              Parameters: {
+                case.insensitive: TRUE,
+                dots.in.keys: FALSE,
+                ignore.malformed.json: FALSE,
+                mapping: TRUE,
+              },
+              SerializationLibrary: org.openx.data.jsonserde.JsonSerDe,
+            },
+          },
+          TableType: EXTERNAL_TABLE,
+        },
+      },
+      Type: AWS::Glue::Table,
+    },
     StockSnalysisDailyRoleTestAllowEventRuleStockSnalysisBaseTestStockSnalysisDownloadListedInfoTest067D3AC448BDFE9C: {
       Properties: {
         Action: lambda:InvokeFunction,
@@ -729,6 +778,55 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::IAM::Policy,
     },
+    StockSnalysisInfoTestGlueTable: {
+      Properties: {
+        CatalogId: {
+          Ref: AWS::AccountId,
+        },
+        DatabaseName: {
+          Ref: stocksnalysistest,
+        },
+        TableInput: {
+          Name: stock_snalysis_info_test,
+          Parameters: {
+            classification: json,
+          },
+          StorageDescriptor: {
+            Columns: [
+              {
+                Name: info,
+                Type: array<struct<Date:string,Code:string,CompanyName:string,CompanyNameEnglish:string,Sector17Code:string,Sector17CodeName:string,Sector33Code:string,Sector33CodeName:string,ScaleCategory:string,MarketCode:string,MarketCodeName:string>>,
+              },
+            ],
+            InputFormat: org.apache.hadoop.mapred.TextInputFormat,
+            Location: {
+              Fn::Join: [
+                ,
+                [
+                  s3://,
+                  {
+                    Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+                  },
+                  /info/,
+                ],
+              ],
+            },
+            OutputFormat: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat,
+            SerdeInfo: {
+              Parameters: {
+                case.insensitive: TRUE,
+                dots.in.keys: FALSE,
+                ignore.malformed.json: FALSE,
+                mapping: TRUE,
+              },
+              SerializationLibrary: org.openx.data.jsonserde.JsonSerDe,
+            },
+          },
+          TableType: EXTERNAL_TABLE,
+        },
+      },
+      Type: AWS::Glue::Table,
+    },
     StockSnalysisJQuantsTest4F63EB39: {
       Properties: {
         CompatibleArchitectures: [
@@ -793,6 +891,25 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::S3::Bucket,
       UpdateReplacePolicy: Retain,
+    },
+    stocksnalysisquerytest01941fc5033f74889a8c8921a4298acc71A9544A: {
+      DeletionPolicy: Retain,
+      Properties: {
+        BucketName: stock-snalysis-query-test-01941fc5-033f-7488-9a8c-8921a4298acc,
+      },
+      Type: AWS::S3::Bucket,
+      UpdateReplacePolicy: Retain,
+    },
+    stocksnalysistest: {
+      Properties: {
+        CatalogId: {
+          Ref: AWS::AccountId,
+        },
+        DatabaseInput: {
+          Name: stock_snalysis_test,
+        },
+      },
+      Type: AWS::Glue::Database,
     },
   },
   Rules: {

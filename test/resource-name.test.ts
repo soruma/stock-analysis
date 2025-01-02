@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { ResourceName, camelToKebabCase, kebabToCamelCase } from '../lib/resource-name';
+import { ResourceName, camelToKebabCase, camelToSnakeCase, kebabToCamelCase } from '../lib/resource-name';
 
 describe('ResourceName', () => {
   const systemName = 'my-system';
@@ -21,6 +21,26 @@ describe('ResourceName', () => {
   it('should generate the correct Bucket policy name', () => {
     const s3Name = resourceName.s3Name('my-bucket');
     expect(s3Name).toBe('my-system-my-bucket-dev-01941fc5-033f-7488-9a8c-8921a4298acc');
+  });
+
+  it('should generate the correct Glue database id', () => {
+    const glueDatabaseId = resourceName.glueDatabaseId();
+    expect(glueDatabaseId).toBe('MySystemGluedatabaseDev');
+  });
+
+  it('should generate the correct Glue database name', () => {
+    const glueDatabaseName = resourceName.glueDatabaseName();
+    expect(glueDatabaseName).toBe('my_system_dev');
+  });
+
+  it('should generate the correct Glue table id', () => {
+    const glueDatabaseName = resourceName.glueTableId('my-glue-table');
+    expect(glueDatabaseName).toBe('MySystemMyGlueTableDevGlueTable');
+  });
+
+  it('should generate the correct Glue table name', () => {
+    const glueDatabaseName = resourceName.glueTableName('my-glue-table');
+    expect(glueDatabaseName).toBe('my_system_my_glue_table_dev');
   });
 
   it('should generate the correct Lambda layer version name', () => {
@@ -105,5 +125,31 @@ describe('kebabToCamelCase', () => {
 
   it('should handle single-word strings with capitalizeFirst option', () => {
     expect(kebabToCamelCase('hello', { capitalizeFirst: true })).toBe('Hello');
+  });
+});
+
+describe('camelToSnakeCase', () => {
+  it('should convert camelCase to snake_case', () => {
+    expect(camelToSnakeCase('camelCase')).toBe('camel_case');
+  });
+
+  it('should handle multiple uppercase letters', () => {
+    expect(camelToSnakeCase('thisIsATest')).toBe('this_is_a_test');
+  });
+
+  it('should handle single word inputs', () => {
+    expect(camelToSnakeCase('word')).toBe('word');
+  });
+
+  it('should handle empty strings', () => {
+    expect(camelToSnakeCase('')).toBe('');
+  });
+
+  it('should handle strings with no uppercase letters', () => {
+    expect(camelToSnakeCase('lowercase')).toBe('lowercase');
+  });
+
+  it('should handle strings with numbers', () => {
+    expect(camelToSnakeCase('test123Case')).toBe('test123_case');
   });
 });
