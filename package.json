@@ -41,6 +41,7 @@
   "dependencies": {
     "aws-cdk-lib": "2.171.1",
     "constructs": "^10.0.0",
-    "stock-analysis-utils": "workspace:*"
+    "stock-analysis-utils": "workspace:*",
+    "japanese-holidays": "^1.0.10"
   }
 }

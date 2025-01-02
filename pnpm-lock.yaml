@@ -17,6 +17,9 @@ importers:
       stock-analysis-utils:
         specifier: workspace:*
         version: link:assets/lambda-layers/stock-analysis-utils
+      japanese-holidays:
+        specifier: ^1.0.10
+        version: 1.0.10
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.4
@@ -1256,6 +1259,9 @@ packages:
   jackspeak@4.0.2:
     resolution: {integrity: sha512-bZsjR/iRjl1Nk1UkjGpAzLNfQtzuijhn2g+pbZb98HQ1Gk8vM9hfbxeMBP+M2/UUdwj0RqGG3mlvk2MsAqwvEw==}
     engines: {node: 20 || >=22}
+
+  japanese-holidays@1.0.10:
+    resolution: {integrity: sha512-OiK5801c432ljumKnQ65TGw6HSEuetU0Fvlz1/BPPPqwxQZ2kPeCy3XHO6q5nf+6zJqIf1fqcpQjWp+/SimO6Q==}
 
   jmespath@0.16.0:
     resolution: {integrity: sha512-9FzQjJ7MATs1tSpnco1K6ayiYE3figslrXA72G2HQ/n76RzvYlofyi5QM+iX4YRs/pu3yzxlVQSST23+dMDknw==}
@@ -3071,6 +3077,8 @@ snapshots:
   jackspeak@4.0.2:
     dependencies:
       '@isaacs/cliui': 8.0.2
+
+  japanese-holidays@1.0.10: {}
 
   jmespath@0.16.0: {}
 

@@ -1,4 +1,6 @@
 import * as fs from 'node:fs';
+// @ts-ignore
+import * as JapaneseHolidays from 'japanese-holidays';
 
 type ExecuteParams = {
   startDate: Date;
@@ -48,9 +50,12 @@ export const marketOpenDays = (startDate: Date, endDate: Date): MarketOpenDays =
 
   while (currentDate <= endDate) {
     const dayOfWeek = currentDate.getDay();
-    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-      result.inputArray.push({ date: currentDate.toISOString().split('T')[0] });
+    const formattedDate = currentDate.toISOString().split('T')[0];
+
+    if (dayOfWeek !== 0 && dayOfWeek !== 6 && !JapaneseHolidays.isHoliday(currentDate)) {
+      result.inputArray.push({ date: formattedDate });
     }
+
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
