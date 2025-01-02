@@ -128,7 +128,7 @@ export class StockAnalysisStack extends cdk.Stack {
       logRetention: RetentionDays.THIRTEEN_MONTHS,
       layers,
       bundling: {
-        externalModules: ['@aws-sdk', 'j-quants'],
+        externalModules: ['@aws-sdk', 'j-quants', 'stock-analysis-utils'],
       },
     });
   }
@@ -154,7 +154,7 @@ export class StockAnalysisStack extends cdk.Stack {
       logRetention: RetentionDays.THIRTEEN_MONTHS,
       layers,
       bundling: {
-        externalModules: ['@aws-sdk', 'j-quants'],
+        externalModules: ['@aws-sdk', 'j-quants', 'stock-analysis-utils'],
       },
     });
   }

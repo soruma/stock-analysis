@@ -1,5 +1,6 @@
 import type { Handler } from 'aws-lambda';
 import { authRefresh, authUser, listedInfo } from 'j-quants';
+import { wait } from 'stock-analysis-utils';
 
 import { registOfCodePerDate } from './registors';
 import { convertParams } from './utils';
@@ -19,6 +20,8 @@ export const handler: Handler = async (event, _context): Promise<string> => {
       date: date,
     });
     await registOfCodePerDate(listInfo);
+
+    wait(1000);
   }
 
   return 'success';
