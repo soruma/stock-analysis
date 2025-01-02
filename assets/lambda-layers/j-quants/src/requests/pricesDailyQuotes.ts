@@ -9,6 +9,7 @@ interface PricesDailyQuotesProps {
 
 export interface PricesDailyQuotes {
   daily_quotes: PricesDailyQuote[];
+  pagination_key: string;
 }
 
 /**
@@ -239,6 +240,7 @@ export const pricesDailyQuotes = async (props: PricesDailyQuotesProps): Promise<
   const queryParams = new URLSearchParams();
   if (props.code) queryParams.append('code', props.code);
   if (props.date) queryParams.append('date', props.date);
+  if (props.paginationKey) queryParams.append('pagination_key', props.paginationKey);
   if (props.from && props.to) {
     queryParams.append('from', props.from);
     queryParams.append('to', props.to);
@@ -256,7 +258,22 @@ export const pricesDailyQuotes = async (props: PricesDailyQuotesProps): Promise<
       throw new Error(`API Error: ${response.status} ${response.statusText}`);
     }
 
-    return response.json();
+    const data: PricesDailyQuotes = await response.json();
+
+    if (data.pagination_key) {
+      console.debug(`Pagination key found: ${data.pagination_key}`);
+      const nextPageData = await pricesDailyQuotes({
+        ...props,
+        paginationKey: data.pagination_key,
+      });
+
+      return {
+        daily_quotes: [...data.daily_quotes, ...nextPageData.daily_quotes],
+        pagination_key: nextPageData.pagination_key,
+      };
+    }
+
+    return data;
   } catch (error) {
     console.error('Fetch error:', error);
     throw error;
