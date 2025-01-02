@@ -1,4 +1,4 @@
-import { getEnvVariable } from '../utils';
+import { getEnvVariable } from 'stock-analysis-utils';
 
 export type AuthUserResponse = {
   refreshToken: string;

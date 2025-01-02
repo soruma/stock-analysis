@@ -8,4 +8,3 @@ export {
   pricesDailyQuotes,
   type PricesDailyQuotes,
 } from './requests';
-export { getEnvVariable, weeksAgo } from './utils';

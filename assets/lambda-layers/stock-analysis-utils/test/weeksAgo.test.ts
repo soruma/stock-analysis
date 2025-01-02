@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { weeksAgo } from '../../src/utils';
+import { weeksAgo } from '../src';
 
 describe('weeksAgo', () => {
   beforeEach(() => {

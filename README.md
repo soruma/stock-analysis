@@ -15,6 +15,8 @@ The following commands will install dependencies, build the project, and synthes
 pnpm install
 pnpm stock-analysis-modules install
 pnpm stock-analysis-modules build
+pnpm stock-analysis-utils install
+pnpm stock-analysis-utils build
 pnpm j-quants install
 pnpm j-quants build
 pnpm build

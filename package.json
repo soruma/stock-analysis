@@ -23,6 +23,7 @@
     "download-listed-info": "pnpm --filter download-listed-info",
     "download-prices-daily-quotes": "pnpm --filter download-prices-daily-quotes",
     "stock-analysis-modules": "pnpm --filter stock-analysis-modules",
+    "stock-analysis-utils": "pnpm --filter stock-analysis-utils",
     "j-quants": "pnpm --filter j-quants"
   },
   "devDependencies": {
@@ -39,6 +40,7 @@
   },
   "dependencies": {
     "aws-cdk-lib": "2.171.1",
-    "constructs": "^10.0.0"
+    "constructs": "^10.0.0",
+    "stock-analysis-utils": "workspace:*"
   }
 }

@@ -1,5 +1,6 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { type PricesDailyQuotes, getEnvVariable } from 'j-quants';
+import { type PricesDailyQuotes } from 'j-quants';
+import { getEnvVariable } from 'stock-analysis-utils';
 
 const s3Prefix = 'daily_quotes';
 

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { getEnvVariable } from '../../src/utils';
+import { getEnvVariable } from '../src';
 
 describe('getEnvVariable', () => {
   const originalEnv = process.env;

@@ -42,6 +42,10 @@ export class StockAnalysisStack extends cdk.Stack {
         compatibleArchitectures: [Architecture.ARM_64],
       },
     );
+    const utilsLambdaLayer = new LayerVersion(this, props.resourceName.lambdaLayerVersionName('stock-analysis-utils'), {
+      code: Code.fromAsset(this.lambdaLayerPath('stock-analysis-utils')),
+      compatibleArchitectures: [Architecture.ARM_64],
+    });
     const jQuantsLambdaLayer = new LayerVersion(this, props.resourceName.lambdaLayerVersionName('j-quants'), {
       code: Code.fromAsset(this.lambdaLayerPath('j-quants')),
       compatibleArchitectures: [Architecture.ARM_64],
@@ -52,10 +56,12 @@ export class StockAnalysisStack extends cdk.Stack {
      */
     const downloadListedInfoFunction = this.createDownloadListedInfoFunction(props, dataBucket, [
       modulesLambdaLayer,
+      utilsLambdaLayer,
       jQuantsLambdaLayer,
     ]);
     const downloadPricesDailyQuotesFunction = this.createDownloadPricesDailyQuotesFunction(props, dataBucket, [
       modulesLambdaLayer,
+      utilsLambdaLayer,
       jQuantsLambdaLayer,
     ]);
 

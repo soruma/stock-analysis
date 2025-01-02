@@ -14,6 +14,9 @@ importers:
       constructs:
         specifier: ^10.0.0
         version: 10.4.2
+      stock-analysis-utils:
+        specifier: workspace:*
+        version: link:assets/lambda-layers/stock-analysis-utils
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.4
@@ -51,9 +54,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.701.0
         version: 3.717.0
-      date-fns:
-        specifier: ^4.1.0
-        version: 4.1.0
+      stock-analysis-utils:
+        specifier: workspace:*
+        version: link:../stock-analysis-utils
     devDependencies:
       '@types/node':
         specifier: ^20.11.16
@@ -70,6 +73,22 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+
+  assets/lambda-layers/stock-analysis-utils:
+    dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.701.0
+        version: 3.717.0
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.16
+        version: 20.17.10
+      typescript:
+        specifier: ~5.6.3
+        version: 5.6.3
 
   assets/lambdas/download-listed-info:
     dependencies:

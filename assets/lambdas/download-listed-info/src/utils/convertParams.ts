@@ -1,4 +1,4 @@
-import { weeksAgo } from 'j-quants';
+import { weeksAgo } from 'stock-analysis-utils';
 
 interface DateProps {
   date: string;

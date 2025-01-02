@@ -28,6 +28,10 @@ jobs:
       run: |
         pnpm stock-analysis-modules install
         pnpm stock-analysis-modules build
+    - name: Install and build the stock-analysis-modules
+      run: |
+        pnpm stock-analysis-utils install
+        pnpm stock-analysis-utils build
     - name: Install and build the j-quants
       run: |
         pnpm j-quants install
