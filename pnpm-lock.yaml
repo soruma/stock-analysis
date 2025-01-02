@@ -14,12 +14,12 @@ importers:
       constructs:
         specifier: ^10.0.0
         version: 10.4.2
-      stock-analysis-utils:
-        specifier: workspace:*
-        version: link:assets/lambda-layers/stock-analysis-utils
       japanese-holidays:
         specifier: ^1.0.10
         version: 1.0.10
+      stock-analysis-utils:
+        specifier: workspace:*
+        version: link:assets/lambda-layers/stock-analysis-utils
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.4
@@ -107,6 +107,9 @@ importers:
       j-quants:
         specifier: workspace:*
         version: link:../../lambda-layers/j-quants
+      stock-analysis-utils:
+        specifier: workspace:*
+        version: link:../../lambda-layers/stock-analysis-utils
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.132
@@ -126,6 +129,9 @@ importers:
       j-quants:
         specifier: workspace:*
         version: link:../../lambda-layers/j-quants
+      stock-analysis-utils:
+        specifier: workspace:*
+        version: link:../../lambda-layers/stock-analysis-utils
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.132
