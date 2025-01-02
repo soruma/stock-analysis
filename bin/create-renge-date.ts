@@ -1,66 +1,80 @@
 import * as fs from 'node:fs';
 
-function writeWeekdaysToFile(startDate: string, endDate: string, outputPath: string): void {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
+type ExecuteParams = {
+  startDate: Date;
+  endDate: Date;
+  outputPath: string;
+};
 
-  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+type MarketOpenDays = {
+  inputArray: {
+    date: string;
+  }[];
+};
+
+export const convertParams = (args: string[]): ExecuteParams => {
+  if (args.length < 3) {
+    throw new Error(
+      'Usage: ts-node bin/create-renge-date.ts <startDate> <endDate> <outputPath>\n' +
+        'Example: ts-node bin/create-renge-date.ts 2024-03-01 2024-03-20 output.json',
+    );
+  }
+
+  const [startStr, endStr, outputPath] = args;
+
+  const startDate = new Date(startStr);
+  const endDate = new Date(endStr);
+
+  if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
     throw new Error('Invalid date format. Use YYYY-MM-DD.');
   }
 
-  if (start > end) {
+  if (startDate > endDate) {
     throw new Error('Start date must be before end date.');
   }
 
-  const writeStream = fs.createWriteStream(outputPath);
-  writeStream.write('{\n  "inputArray": [\n');
+  return {
+    startDate,
+    endDate,
+    outputPath,
+  };
+};
 
-  const currentDate = start;
-  let isFirst = true;
+export const marketOpenDays = (startDate: Date, endDate: Date): MarketOpenDays => {
+  const result: MarketOpenDays = {
+    inputArray: [],
+  };
+  const currentDate = new Date(startDate);
 
-  while (currentDate <= end) {
+  while (currentDate <= endDate) {
     const dayOfWeek = currentDate.getDay();
     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-      const dateString = `    { "date": "${currentDate.toISOString().split('T')[0]}" }`;
-      if (!isFirst) {
-        writeStream.write(',\n');
-      } else {
-        isFirst = false;
-      }
-      writeStream.write(dateString);
+      result.inputArray.push({ date: currentDate.toISOString().split('T')[0] });
     }
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
-  writeStream.write('\n  ]\n}');
-  writeStream.end();
+  return result;
+};
 
-  writeStream.on('finish', () => {
-    console.log(`File written to ${outputPath}`);
-  });
+/**
+ * Writes JSON data to a file.
+ * @param filePath - The path to the output file.
+ * @param data - The JSON data to write.
+ */
+export const writeJsonToFile = (filePath: string, data: MarketOpenDays): void => {
+  try {
+    const jsonString = JSON.stringify(data, null, 2);
 
-  writeStream.on('error', (err: NodeJS.ErrnoException) => {
-    console.error('Error writing file:', err.message);
-  });
-}
-
-const args: string[] = process.argv.slice(2);
-
-if (args.length < 3) {
-  console.error('Usage: ts-node bin/create-renge-date.ts <startDate> <endDate> <outputPath>');
-  console.error('Example: ts-node bin/create-renge-date.ts 2024-03-01 2024-03-20 output.json');
-  process.exit(1);
-}
-
-const [startDate, endDate, outputPath] = args;
-
-try {
-  writeWeekdaysToFile(startDate, endDate, outputPath);
-} catch (error) {
-  if (error instanceof Error) {
-    console.error('Error:', error.message);
-  } else {
-    console.error('An unexpected error occurred.');
+    fs.writeFileSync(filePath, jsonString, 'utf-8');
+    console.log(`JSON data has been written to ${filePath}`);
+  } catch (error) {
+    console.error('Error writing JSON to file:', error);
   }
-  process.exit(1);
+};
+
+if (require.main === module) {
+  const params = convertParams(process.argv.slice(2));
+  const data = marketOpenDays(params.startDate, params.endDate);
+  writeJsonToFile(params.outputPath, data);
 }
