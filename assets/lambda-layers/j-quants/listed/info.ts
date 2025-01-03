@@ -4,11 +4,11 @@ export interface InfoProps {
   code?: string;
 }
 
-export interface Info {
-  info: CompanyInfo[];
+export interface ListedInfo {
+  info: Info[];
 }
 
-export interface CompanyInfo {
+export interface Info {
   Date: string; // 日付 (YYYY-MM-DD形式)
   Code: string; // 会社コード
   CompanyName: string; // 会社名
@@ -24,7 +24,7 @@ export interface CompanyInfo {
   MarginCodeName: string; // 信用区分コード名
 }
 
-export const info = async (props: InfoProps): Promise<Info> => {
+export const info = async (props: InfoProps): Promise<ListedInfo> => {
   const headers = {
     Authorization: `Bearer ${props.idToken}`,
     'Content-Type': 'application/json',

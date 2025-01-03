@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Info, InfoProps, info } from '../info';
+import { ListedInfo, InfoProps, info } from '../info';
 
 describe('info', () => {
   const mockFetch = vi.fn();
@@ -13,7 +13,7 @@ describe('info', () => {
   });
 
   it('should fetch data with correct URL and headers when date and code are provided', async () => {
-    const mockResponse: Info = {
+    const mockResponse: ListedInfo = {
       info: [
         {
           Date: '2025-01-01',
@@ -57,7 +57,7 @@ describe('info', () => {
   });
 
   it('should fetch data with correct URL and headers when only date is provided', async () => {
-    const mockResponse: Info = { info: [] };
+    const mockResponse: ListedInfo = { info: [] };
 
     mockFetch.mockResolvedValueOnce({
       ok: true,
@@ -82,7 +82,7 @@ describe('info', () => {
   });
 
   it('should fetch data with correct URL and headers when only code is provided', async () => {
-    const mockResponse: Info = { info: [] };
+    const mockResponse: ListedInfo = { info: [] };
 
     mockFetch.mockResolvedValueOnce({
       ok: true,
@@ -107,7 +107,7 @@ describe('info', () => {
   });
 
   it('should fetch data with correct URL and headers when no query parameters are provided', async () => {
-    const mockResponse: Info = { info: [] };
+    const mockResponse: ListedInfo = { info: [] };
 
     mockFetch.mockResolvedValueOnce({
       ok: true,
