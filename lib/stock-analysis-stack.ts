@@ -31,10 +31,7 @@ export class StockAnalysisStack extends cdk.Stack {
      * S3
      */
     const dataBucket = this.createDataBucket(props);
-
-    new Bucket(this, props.resourceName.s3Name('query'), {
-      bucketName: props.resourceName.s3Name('query'),
-    });
+    this.createQueryBucket(props);
 
     /**
      * Glue
@@ -119,6 +116,12 @@ export class StockAnalysisStack extends cdk.Stack {
     );
 
     return dataBucket;
+  }
+
+  createQueryBucket(props: StockAnalysisLambdaStackProps): Bucket {
+    return new Bucket(this, props.resourceName.s3Name('query'), {
+      bucketName: props.resourceName.s3Name('query'),
+    });
   }
 
   createDownloadListedInfoFunction(props: StockAnalysisLambdaStackProps, dataBucket: Bucket, layers: LayerVersion[]) {
