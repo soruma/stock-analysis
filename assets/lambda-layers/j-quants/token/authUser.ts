@@ -4,10 +4,10 @@ export type AuthUserResponse = {
   refreshToken: string;
 };
 
-const mailaddress = getEnvVariable('JQUANTS_API_MAIL_ADDRESS');
-const password = getEnvVariable('JQUANTS_API_PASSWORD');
-
 export const authUser = async () => {
+  const mailaddress = getEnvVariable('JQUANTS_API_MAIL_ADDRESS');
+  const password = getEnvVariable('JQUANTS_API_PASSWORD');
+
   const headers = {
     'Content-Type': 'application/json',
   };
