@@ -20,6 +20,7 @@
     "format": "biome format . --write && biome check . --write",
     "cleanup-generated-files": "ts-node bin/cleanup-generated-files.ts",
     "create-renge-date": "ts-node bin/create-renge-date.ts",
+    "refresh-token": "pnpm --filter refresh-token",
     "download-listed-info": "pnpm --filter download-listed-info",
     "download-prices-daily-quotes": "pnpm --filter download-prices-daily-quotes",
     "stock-analysis-modules": "pnpm --filter stock-analysis-modules",
@@ -39,9 +40,11 @@
     "vitest": "^2.1.6"
   },
   "dependencies": {
+    "@aws-sdk/client-ssm": "^3.721.0",
+    "@aws-sdk/credential-providers": "^3.721.0",
     "aws-cdk-lib": "2.171.1",
     "constructs": "^10.0.0",
-    "stock-analysis-utils": "workspace:*",
-    "japanese-holidays": "^1.0.10"
+    "japanese-holidays": "^1.0.10",
+    "stock-analysis-utils": "workspace:*"
   }
 }

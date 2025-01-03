@@ -1,0 +1,18 @@
+{
+  "name": "refresh-token",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "author": "soruma",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.132",
+    "@types/node": "^20.11.16"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ssm": "^3.721.0",
+    "aws-lambda": "^1.0.7",
+    "j-quants": "workspace:*",
+    "stock-analysis-utils": "workspace:*"
+  }
+}

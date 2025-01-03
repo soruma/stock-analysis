@@ -8,12 +8,14 @@ import { StockAnalysisStack } from '../lib/stock-analysis-stack';
 const systemEnv = 'test';
 const resourceName = new ResourceName('stock-snalysis', systemEnv);
 const abacusRoleArn = 'arn:aws:iam::123456789012:role/example-role';
+const previousRefreshToken = 'previousRefreshToken';
 
 it('snapshot test', () => {
   const app = new cdk.App();
   const stackName = resourceName.stackName('base');
   const stack = new StockAnalysisStack(app, stackName, {
     resourceName,
+    previousRefreshToken,
     abacusRoleArn,
   });
 

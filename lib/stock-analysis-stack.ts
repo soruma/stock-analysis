@@ -2,6 +2,7 @@ import * as path from 'node:path';
 import * as cdk from 'aws-cdk-lib';
 import * as dotenv from 'dotenv';
 
+import { Duration, SecretValue } from 'aws-cdk-lib';
 import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { CfnDatabase, CfnTable } from 'aws-cdk-lib/aws-glue';
@@ -11,6 +12,7 @@ import { Architecture, Code, IFunction, LayerVersion, Runtime } from 'aws-cdk-li
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Bucket, BucketPolicy } from 'aws-cdk-lib/aws-s3';
+import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import type { Construct } from 'constructs';
 
 import { ResourceName } from './resource-name';
@@ -21,6 +23,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.abacus.env') });
 interface StockAnalysisLambdaStackProps extends cdk.StackProps {
   resourceName: ResourceName;
   abacusRoleArn: string;
+  previousRefreshToken: string;
 }
 
 export class StockAnalysisStack extends cdk.Stack {
@@ -32,6 +35,18 @@ export class StockAnalysisStack extends cdk.Stack {
      */
     const dataBucket = this.createDataBucket(props);
     this.createQueryBucket(props);
+
+    /**
+     * Parameter Store
+     */
+    const refreshTokenParameterStore = new StringParameter(
+      this,
+      props.resourceName.parameterStoreName('refresh-token'),
+      {
+        parameterName: props.resourceName.parameterStoreKey('refresh-token'),
+        stringValue: props.previousRefreshToken,
+      },
+    );
 
     /**
      * Glue
@@ -61,24 +76,34 @@ export class StockAnalysisStack extends cdk.Stack {
     /**
      * Lambda
      */
+    const refreshTokenFunction = this.createRefreshTokenFunction(props, [
+      modulesLambdaLayer,
+      utilsLambdaLayer,
+      jQuantsLambdaLayer,
+    ]);
+    refreshTokenParameterStore.grantWrite(refreshTokenFunction);
+
     const downloadListedInfoFunction = this.createDownloadListedInfoFunction(props, dataBucket, [
       modulesLambdaLayer,
       utilsLambdaLayer,
       jQuantsLambdaLayer,
     ]);
+    dataBucket.grantPut(downloadListedInfoFunction);
+    refreshTokenParameterStore.grantRead(downloadListedInfoFunction);
+
     const downloadPricesDailyQuotesFunction = this.createDownloadPricesDailyQuotesFunction(props, dataBucket, [
       modulesLambdaLayer,
       utilsLambdaLayer,
       jQuantsLambdaLayer,
     ]);
-
-    dataBucket.grantPut(downloadListedInfoFunction);
     dataBucket.grantPut(downloadPricesDailyQuotesFunction);
+    refreshTokenParameterStore.grantRead(downloadPricesDailyQuotesFunction);
 
     /**
      * EventBridge
      */
-    this.createEventRule(props, [downloadListedInfoFunction, downloadPricesDailyQuotesFunction]);
+    this.createRefreshTokenEventRule(props, refreshTokenFunction);
+    this.createDownloadEventRule(props, [downloadListedInfoFunction, downloadPricesDailyQuotesFunction]);
   }
 
   createDataBucket(props: StockAnalysisLambdaStackProps): Bucket {
@@ -124,18 +149,39 @@ export class StockAnalysisStack extends cdk.Stack {
     });
   }
 
-  createDownloadListedInfoFunction(props: StockAnalysisLambdaStackProps, dataBucket: Bucket, layers: LayerVersion[]) {
-    const LambdaName = 'download-listed-info';
+  createRefreshTokenFunction(props: StockAnalysisLambdaStackProps, layers: LayerVersion[]) {
+    const lambdaName = 'refresh-token';
 
-    return new NodejsFunction(this, props.resourceName.lambdaName(LambdaName), {
-      entry: this.lambdaPath(LambdaName, ['src', 'index.ts']),
+    return new NodejsFunction(this, props.resourceName.lambdaName(lambdaName), {
+      entry: this.lambdaPath(lambdaName, ['src', 'index.ts']),
+      handler: 'handler',
+      architecture: Architecture.ARM_64,
+      runtime: Runtime.NODEJS_22_X,
+      timeout: cdk.Duration.seconds(10),
+      environment: {
+        JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
+        JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
+        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey(lambdaName),
+      },
+      logRetention: RetentionDays.THIRTEEN_MONTHS,
+      layers,
+      bundling: {
+        externalModules: ['@aws-sdk', 'j-quants', 'stock-analysis-utils'],
+      },
+    });
+  }
+
+  createDownloadListedInfoFunction(props: StockAnalysisLambdaStackProps, dataBucket: Bucket, layers: LayerVersion[]) {
+    const lambdaName = 'download-listed-info';
+
+    return new NodejsFunction(this, props.resourceName.lambdaName(lambdaName), {
+      entry: this.lambdaPath(lambdaName, ['src', 'index.ts']),
       handler: 'handler',
       architecture: Architecture.ARM_64,
       runtime: Runtime.NODEJS_22_X,
       timeout: cdk.Duration.seconds(30),
       environment: {
-        JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
-        JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
+        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey(lambdaName),
         S3_BUCKET_NAME: dataBucket.bucketName,
       },
       logRetention: RetentionDays.THIRTEEN_MONTHS,
@@ -151,17 +197,16 @@ export class StockAnalysisStack extends cdk.Stack {
     dataBucket: Bucket,
     layers: LayerVersion[],
   ) {
-    const LambdaName = 'download-prices-daily-quotes';
+    const lambdaName = 'download-prices-daily-quotes';
 
-    return new NodejsFunction(this, props.resourceName.lambdaName(LambdaName), {
-      entry: this.lambdaPath(LambdaName, ['src', 'index.ts']),
+    return new NodejsFunction(this, props.resourceName.lambdaName(lambdaName), {
+      entry: this.lambdaPath(lambdaName, ['src', 'index.ts']),
       handler: 'handler',
       architecture: Architecture.ARM_64,
       runtime: Runtime.NODEJS_22_X,
       timeout: cdk.Duration.seconds(30),
       environment: {
-        JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
-        JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
+        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey(lambdaName),
         S3_BUCKET_NAME: dataBucket.bucketName,
       },
       logRetention: RetentionDays.THIRTEEN_MONTHS,
@@ -172,7 +217,21 @@ export class StockAnalysisStack extends cdk.Stack {
     });
   }
 
-  createEventRule(props: StockAnalysisLambdaStackProps, targetFunctions: IFunction[]): void {
+  createRefreshTokenEventRule(props: StockAnalysisLambdaStackProps, refreshTokenFunction: IFunction): void {
+    const rule = new Rule(this, props.resourceName.eventRoleName('refresh-token-role'), {
+      schedule: Schedule.rate(Duration.days(6)),
+    });
+
+    rule.addTarget(
+      new LambdaFunction(refreshTokenFunction, {
+        event: RuleTargetInput.fromObject({
+          message: `Scheduled event for ${refreshTokenFunction.functionName} to run at intervals shorter than one week`,
+        }),
+      }),
+    );
+  }
+
+  createDownloadEventRule(props: StockAnalysisLambdaStackProps, targetFunctions: IFunction[]): void {
     const rule = new Rule(this, props.resourceName.eventRoleName('daily-role'), {
       schedule: Schedule.cron({ minute: '0', hour: '17' }),
     });

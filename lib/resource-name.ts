@@ -20,6 +20,14 @@ export class ResourceName {
     return this.baseName(name);
   }
 
+  public parameterStoreName(name: string) {
+    return this.baseName(name);
+  }
+
+  public parameterStoreKey(name: string) {
+    return camelToSnakeCase(`/${this.systemName}/${this.systemEnv}/${name}`);
+  }
+
   public glueDatabaseId() {
     return `${this.baseName('GlueDatabase')}`;
   }
@@ -45,7 +53,7 @@ export class ResourceName {
   }
 
   public lambdaName(name: string) {
-    return this.baseName(name);
+    return `${this.baseName(name)}Function`;
   }
 
   public eventRoleName(name: string) {

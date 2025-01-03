@@ -23,6 +23,16 @@ describe('ResourceName', () => {
     expect(s3Name).toBe('my-system-my-bucket-dev-01941fc5-033f-7488-9a8c-8921a4298acc');
   });
 
+  it('should generate the correct Parameter store name', () => {
+    const parameterStoreName = resourceName.parameterStoreName('my-parameter-store');
+    expect(parameterStoreName).toBe('MySystemMyParameterStoreDev');
+  });
+
+  it('should generate the correct Parameter store key', () => {
+    const parameterStoreKey = resourceName.parameterStoreKey('my-parameter-store');
+    expect(parameterStoreKey).toBe('/my_system/dev/my-parameter-store');
+  });
+
   it('should generate the correct Glue database id', () => {
     const glueDatabaseId = resourceName.glueDatabaseId();
     expect(glueDatabaseId).toBe('MySystemGluedatabaseDev');
@@ -50,7 +60,7 @@ describe('ResourceName', () => {
 
   it('should generate the correct Lambda name', () => {
     const lambdaName = resourceName.lambdaName('my-function');
-    expect(lambdaName).toBe('MySystemMyFunctionDev');
+    expect(lambdaName).toBe('MySystemMyFunctionDevFunction');
   });
 
   it('should generate the correct Event role name', () => {
