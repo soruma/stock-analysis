@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ListedInfo, InfoProps, info } from '../info';
+import { InfoProps, ListedInfo, info } from '../info';
 
 describe('info', () => {
   const mockFetch = vi.fn();
