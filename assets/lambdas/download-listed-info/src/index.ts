@@ -1,5 +1,6 @@
 import type { Handler } from 'aws-lambda';
-import { authRefresh, authUser, listedInfo } from 'j-quants';
+import { info } from 'j-quants/listed';
+import { authRefresh, authUser } from 'j-quants/token';
 import { wait } from 'stock-analysis-utils';
 
 import { registOfCodePerDate } from './registors';
@@ -15,11 +16,11 @@ export const handler: Handler = async (event, _context): Promise<string> => {
 
   for (const date of params) {
     console.info(`execute listed info: ${date}`);
-    const listInfo = await listedInfo({
+    const response = await info({
       idToken: authRefreshResponse.idToken,
       date: date,
     });
-    await registOfCodePerDate(listInfo);
+    await registOfCodePerDate(response);
 
     wait(1000);
   }

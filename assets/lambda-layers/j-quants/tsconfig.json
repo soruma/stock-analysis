@@ -22,6 +22,6 @@
     "outDir": "./dist/layer/nodejs/node_modules/j-quants",
     "esModuleInterop": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["test", "dist"]
+  "include": ["listed", "prices", "token"],
+  "exclude": ["**/test", "dist"]
 }

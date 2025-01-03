@@ -1,5 +1,5 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { type PricesDailyQuotes } from 'j-quants';
+import { type DailyQuotes } from 'j-quants/prices';
 import { getEnvVariable } from 'stock-analysis-utils';
 
 const s3Prefix = 'daily_quotes';
@@ -24,10 +24,6 @@ const putObject = async (bucketName: string, key: string, data: string): Promise
   }
 };
 
-export const registOfCodePerDate = async (pricesDailyQuotes: PricesDailyQuotes) => {
-  await putObject(
-    bucketName,
-    `${s3Prefix}/${pricesDailyQuotes.daily_quotes[0].Date}.json`,
-    JSON.stringify(pricesDailyQuotes),
-  );
+export const registOfCodePerDate = async (dailyQuotes: DailyQuotes) => {
+  await putObject(bucketName, `${s3Prefix}/${dailyQuotes.daily_quotes[0].Date}.json`, JSON.stringify(dailyQuotes));
 };

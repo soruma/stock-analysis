@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ListedInfo, ListedInfoProps, listedInfo } from '../../src/requests/listedInfo';
+import { Info, InfoProps, info } from '../info';
 
-describe('listedInfo', () => {
+describe('info', () => {
   const mockFetch = vi.fn();
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('listedInfo', () => {
   });
 
   it('should fetch data with correct URL and headers when date and code are provided', async () => {
-    const mockResponse: ListedInfo = {
+    const mockResponse: Info = {
       info: [
         {
           Date: '2025-01-01',
@@ -38,13 +38,13 @@ describe('listedInfo', () => {
       json: async () => mockResponse,
     });
 
-    const props: ListedInfoProps = {
+    const props: InfoProps = {
       idToken: 'test-token',
       date: '2025-01-01',
       code: '1234',
     };
 
-    const result = await listedInfo(props);
+    const result = await info(props);
 
     expect(mockFetch).toHaveBeenCalledWith('https://api.jquants.com/v1/listed/info?date=2025-01-01&code=1234', {
       headers: {
@@ -57,19 +57,19 @@ describe('listedInfo', () => {
   });
 
   it('should fetch data with correct URL and headers when only date is provided', async () => {
-    const mockResponse: ListedInfo = { info: [] };
+    const mockResponse: Info = { info: [] };
 
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockResponse,
     });
 
-    const props: ListedInfoProps = {
+    const props: InfoProps = {
       idToken: 'test-token',
       date: '2025-01-01',
     };
 
-    const result = await listedInfo(props);
+    const result = await info(props);
 
     expect(mockFetch).toHaveBeenCalledWith('https://api.jquants.com/v1/listed/info?date=2025-01-01', {
       headers: {
@@ -82,19 +82,19 @@ describe('listedInfo', () => {
   });
 
   it('should fetch data with correct URL and headers when only code is provided', async () => {
-    const mockResponse: ListedInfo = { info: [] };
+    const mockResponse: Info = { info: [] };
 
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockResponse,
     });
 
-    const props: ListedInfoProps = {
+    const props: InfoProps = {
       idToken: 'test-token',
       code: '1234',
     };
 
-    const result = await listedInfo(props);
+    const result = await info(props);
 
     expect(mockFetch).toHaveBeenCalledWith('https://api.jquants.com/v1/listed/info?code=1234', {
       headers: {
@@ -107,18 +107,18 @@ describe('listedInfo', () => {
   });
 
   it('should fetch data with correct URL and headers when no query parameters are provided', async () => {
-    const mockResponse: ListedInfo = { info: [] };
+    const mockResponse: Info = { info: [] };
 
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockResponse,
     });
 
-    const props: ListedInfoProps = {
+    const props: InfoProps = {
       idToken: 'test-token',
     };
 
-    const result = await listedInfo(props);
+    const result = await info(props);
 
     expect(mockFetch).toHaveBeenCalledWith('https://api.jquants.com/v1/listed/info', {
       headers: {
@@ -137,11 +137,11 @@ describe('listedInfo', () => {
       statusText: 'Internal Server Error',
     });
 
-    const props: ListedInfoProps = {
+    const props: InfoProps = {
       idToken: 'test-token',
     };
 
-    await expect(listedInfo(props)).rejects.toThrowError('API Error: 500 Internal Server Error');
+    await expect(info(props)).rejects.toThrowError('API Error: 500 Internal Server Error');
 
     expect(mockFetch).toHaveBeenCalledWith('https://api.jquants.com/v1/listed/info', {
       headers: {
@@ -154,11 +154,11 @@ describe('listedInfo', () => {
   it('should throw an error if fetch fails', async () => {
     mockFetch.mockRejectedValueOnce(new Error('Network Error'));
 
-    const props: ListedInfoProps = {
+    const props: InfoProps = {
       idToken: 'test-token',
     };
 
-    await expect(listedInfo(props)).rejects.toThrowError('Network Error');
+    await expect(info(props)).rejects.toThrowError('Network Error');
 
     expect(mockFetch).toHaveBeenCalledWith('https://api.jquants.com/v1/listed/info', {
       headers: {

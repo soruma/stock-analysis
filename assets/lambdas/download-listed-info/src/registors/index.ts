@@ -1,5 +1,5 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { ListedInfo } from 'j-quants';
+import { Info } from 'j-quants/listed';
 import { getEnvVariable } from 'stock-analysis-utils';
 
 const s3Prefix = 'info';
@@ -24,6 +24,6 @@ const putObject = async (bucketName: string, key: string, data: string): Promise
   }
 };
 
-export const registOfCodePerDate = async (listInfo: ListedInfo) => {
-  await putObject(bucketName, `${s3Prefix}/${listInfo.info[0].Date}.json`, JSON.stringify(listInfo));
+export const registOfCodePerDate = async (info: Info) => {
+  await putObject(bucketName, `${s3Prefix}/${info.info[0].Date}.json`, JSON.stringify(info));
 };

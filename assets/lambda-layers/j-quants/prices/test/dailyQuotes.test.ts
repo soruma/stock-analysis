@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { pricesDailyQuotes } from '../../src/requests';
+import { dailyQuotes } from '../dailyQuotes';
 
-describe('pricesDailyQuotes', () => {
+describe('dailyQuotes', () => {
   const mockResponse = {
     daily_quotes: [
       {
@@ -37,7 +37,7 @@ describe('pricesDailyQuotes', () => {
   describe('limited items by code', () => {
     it('http request parameters are being passed as expected', async () => {
       const code = '86970';
-      const response = await pricesDailyQuotes({ idToken: 'id_token', code });
+      const response = await dailyQuotes({ idToken: 'id_token', code });
 
       expect(fetch).toBeCalledWith(`https://api.jquants.com/v1/prices/daily_quotes?code=${code}`, {
         headers: {
@@ -52,7 +52,7 @@ describe('pricesDailyQuotes', () => {
   describe('limited items by date', () => {
     it('http request parameters are being passed as expected', async () => {
       const date = '2022-11-11';
-      const response = await pricesDailyQuotes({ idToken: 'id_token', date });
+      const response = await dailyQuotes({ idToken: 'id_token', date });
 
       expect(fetch).toBeCalledWith(`https://api.jquants.com/v1/prices/daily_quotes?date=${date}`, {
         headers: {
@@ -68,7 +68,7 @@ describe('pricesDailyQuotes', () => {
     it('http request parameters are being passed as expected', async () => {
       const from = '2022-11-11';
       const to = '2022-11-13';
-      const response = await pricesDailyQuotes({
+      const response = await dailyQuotes({
         idToken: 'id_token',
         from,
         to,
@@ -87,7 +87,7 @@ describe('pricesDailyQuotes', () => {
   describe('limited items by paginationKey', () => {
     it('http request parameters are being passed as expected', async () => {
       const paginationKey = 'next_page_key';
-      const response = await pricesDailyQuotes({ idToken: 'id_token', paginationKey });
+      const response = await dailyQuotes({ idToken: 'id_token', paginationKey });
 
       expect(fetch).toBeCalledWith(`https://api.jquants.com/v1/prices/daily_quotes?pagination_key=${paginationKey}`, {
         headers: {
@@ -100,7 +100,7 @@ describe('pricesDailyQuotes', () => {
   });
 });
 
-describe('pricesDailyQuotes with pagination', () => {
+describe('dailyQuotes with pagination', () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -120,7 +120,7 @@ describe('pricesDailyQuotes with pagination', () => {
       .mockImplementationOnce(async () => new Response(JSON.stringify(mockResponsePage1)))
       .mockImplementationOnce(async () => new Response(JSON.stringify(mockResponsePage2)));
 
-    const response = await pricesDailyQuotes({ idToken: 'id_token', date: '2022-11-11' });
+    const response = await dailyQuotes({ idToken: 'id_token', date: '2022-11-11' });
 
     expect(fetch).toHaveBeenCalledTimes(2);
     expect(fetch).toHaveBeenCalledWith('https://api.jquants.com/v1/prices/daily_quotes?date=2022-11-11', {

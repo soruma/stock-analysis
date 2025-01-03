@@ -1,5 +1,6 @@
 import type { Handler } from 'aws-lambda';
-import { authRefresh, authUser, pricesDailyQuotes } from 'j-quants';
+import { dailyQuotes } from 'j-quants/prices';
+import { authRefresh, authUser } from 'j-quants/token';
 import { wait } from 'stock-analysis-utils';
 
 import { registOfCodePerDate } from './registors';
@@ -15,7 +16,7 @@ export const handler: Handler = async (event, _context): Promise<string> => {
 
   for (const date of params) {
     console.info(`execute daily quotes: ${date}`);
-    const response = await pricesDailyQuotes({
+    const response = await dailyQuotes({
       idToken: authRefreshResponse.idToken,
       date: date,
     });

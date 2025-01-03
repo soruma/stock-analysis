@@ -1,4 +1,4 @@
-interface PricesDailyQuotesProps {
+interface DailyQuotesProps {
   idToken: string;
   code?: string;
   from?: string;
@@ -7,8 +7,8 @@ interface PricesDailyQuotesProps {
   paginationKey?: string;
 }
 
-export interface PricesDailyQuotes {
-  daily_quotes: PricesDailyQuote[];
+export interface DailyQuotes {
+  daily_quotes: DailyQuote[];
   pagination_key: string;
 }
 
@@ -17,7 +17,7 @@ export interface PricesDailyQuotes {
  * - ※1  過去の分割等を考慮した調整済みの項目です
  * - ※2  Premiumプランのみ取得可能な項目です
  */
-export interface PricesDailyQuote {
+export interface DailyQuote {
   /**
    * 日付 (YYYY-MM-DD形式)
    */
@@ -232,7 +232,7 @@ export interface PricesDailyQuote {
   AfternoonAdjustmentVolume: number;
 }
 
-export const pricesDailyQuotes = async (props: PricesDailyQuotesProps): Promise<PricesDailyQuotes> => {
+export const dailyQuotes = async (props: DailyQuotesProps): Promise<DailyQuotes> => {
   const headers = {
     Authorization: `Bearer ${props.idToken}`,
     'Content-Type': 'application/json',
@@ -258,11 +258,11 @@ export const pricesDailyQuotes = async (props: PricesDailyQuotesProps): Promise<
       throw new Error(`API Error: ${response.status} ${response.statusText}`);
     }
 
-    const data: PricesDailyQuotes = await response.json();
+    const data: DailyQuotes = await response.json();
 
     if (data.pagination_key) {
       console.debug(`Pagination key found: ${data.pagination_key}`);
-      const nextPageData = await pricesDailyQuotes({
+      const nextPageData = await dailyQuotes({
         ...props,
         paginationKey: data.pagination_key,
       });

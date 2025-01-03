@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { authRefresh } from '../../src/requests';
+import { authRefresh } from '../authRefresh';
 
 describe('authRefresh', () => {
   const mockResponse = { idToken: 'id_token' };
