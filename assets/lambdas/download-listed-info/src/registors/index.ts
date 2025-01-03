@@ -2,7 +2,7 @@ import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { Info } from 'j-quants/listed';
 import { getEnvVariable } from 'stock-analysis-utils';
 
-const s3Prefix = 'info';
+const s3Prefix = 'listed/info';
 
 const client = new S3Client({});
 const bucketName = getEnvVariable('S3_BUCKET_NAME');

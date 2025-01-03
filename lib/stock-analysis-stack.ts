@@ -268,7 +268,7 @@ export class StockAnalysisStack extends cdk.Stack {
               type: 'array<struct<Date:string,Code:string,CompanyName:string,CompanyNameEnglish:string,Sector17Code:string,Sector17CodeName:string,Sector33Code:string,Sector33CodeName:string,ScaleCategory:string,MarketCode:string,MarketCodeName:string>>',
             },
           ],
-          location: `s3://${dataBucket.bucketName}/info/`,
+          location: `s3://${dataBucket.bucketName}/listed/info/`,
           inputFormat: 'org.apache.hadoop.mapred.TextInputFormat',
           outputFormat: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
           serdeInfo: {
@@ -300,7 +300,7 @@ export class StockAnalysisStack extends cdk.Stack {
               type: 'array<struct<Date:string,Code:string,Open:double,High:double,Low:double,Close:double,UpperLimit:string,LowerLimit:string,Volume:int,TurnoverValue:double,AdjustmentFactor:double,AdjustmentOpen:double,AdjustmentHigh:double,AdjustmentLow:double,AdjustmentClose:double,AdjustmentVolume:double>>',
             },
           ],
-          location: `s3://${dataBucket.bucketName}/daily_quotes/`,
+          location: `s3://${dataBucket.bucketName}/prices/daily_quotes/`,
           inputFormat: 'org.apache.hadoop.mapred.TextInputFormat',
           outputFormat: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
           serdeInfo: {

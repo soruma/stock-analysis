@@ -2,7 +2,7 @@ import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { type DailyQuotes } from 'j-quants/prices';
 import { getEnvVariable } from 'stock-analysis-utils';
 
-const s3Prefix = 'daily_quotes';
+const s3Prefix = 'prices/daily_quotes';
 
 const client = new S3Client({});
 const bucketName = getEnvVariable('S3_BUCKET_NAME');
