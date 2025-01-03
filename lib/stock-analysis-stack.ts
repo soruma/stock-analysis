@@ -39,76 +39,7 @@ export class StockAnalysisStack extends cdk.Stack {
     /**
      * Glue
      */
-    const glueDatabase = new CfnDatabase(this, props.resourceName.glueDatabaseName(), {
-      catalogId: this.account,
-      databaseInput: {
-        name: props.resourceName.glueDatabaseName(),
-      },
-    });
-
-    new CfnTable(this, props.resourceName.glueTableId('info'), {
-      catalogId: this.account,
-      databaseName: glueDatabase.ref,
-      tableInput: {
-        name: props.resourceName.glueTableName('info'),
-        tableType: 'EXTERNAL_TABLE',
-        storageDescriptor: {
-          columns: [
-            {
-              name: 'info',
-              type: 'array<struct<Date:string,Code:string,CompanyName:string,CompanyNameEnglish:string,Sector17Code:string,Sector17CodeName:string,Sector33Code:string,Sector33CodeName:string,ScaleCategory:string,MarketCode:string,MarketCodeName:string>>',
-            },
-          ],
-          location: `s3://${dataBucket.bucketName}/info/`,
-          inputFormat: 'org.apache.hadoop.mapred.TextInputFormat',
-          outputFormat: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
-          serdeInfo: {
-            serializationLibrary: 'org.openx.data.jsonserde.JsonSerDe',
-            parameters: {
-              'ignore.malformed.json': 'FALSE',
-              'dots.in.keys': 'FALSE',
-              'case.insensitive': 'TRUE',
-              mapping: 'TRUE',
-            },
-          },
-        },
-        parameters: {
-          classification: 'json',
-        },
-      },
-    });
-
-    new CfnTable(this, props.resourceName.glueTableId('daily-quotes'), {
-      catalogId: this.account,
-      databaseName: glueDatabase.ref,
-      tableInput: {
-        name: props.resourceName.glueTableName('daily-quotes'),
-        tableType: 'EXTERNAL_TABLE',
-        storageDescriptor: {
-          columns: [
-            {
-              name: 'daily_quotes',
-              type: 'array<struct<Date:string,Code:string,Open:double,High:double,Low:double,Close:double,UpperLimit:string,LowerLimit:string,Volume:int,TurnoverValue:double,AdjustmentFactor:double,AdjustmentOpen:double,AdjustmentHigh:double,AdjustmentLow:double,AdjustmentClose:double,AdjustmentVolume:double>>',
-            },
-          ],
-          location: `s3://${dataBucket.bucketName}/daily_quotes/`,
-          inputFormat: 'org.apache.hadoop.mapred.TextInputFormat',
-          outputFormat: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
-          serdeInfo: {
-            serializationLibrary: 'org.openx.data.jsonserde.JsonSerDe',
-            parameters: {
-              'ignore.malformed.json': 'FALSE',
-              'dots.in.keys': 'FALSE',
-              'case.insensitive': 'TRUE',
-              mapping: 'TRUE',
-            },
-          },
-        },
-        parameters: {
-          classification: 'json',
-        },
-      },
-    });
+    this.createGlue(props, dataBucket);
 
     /**
      * Lambda Layer
@@ -252,6 +183,79 @@ export class StockAnalysisStack extends cdk.Stack {
         }),
       );
     }
+  }
+
+  createGlue(props: StockAnalysisLambdaStackProps, dataBucket: Bucket): void {
+    const glueDatabase = new CfnDatabase(this, props.resourceName.glueDatabaseName(), {
+      catalogId: this.account,
+      databaseInput: {
+        name: props.resourceName.glueDatabaseName(),
+      },
+    });
+
+    new CfnTable(this, props.resourceName.glueTableId('info'), {
+      catalogId: this.account,
+      databaseName: glueDatabase.ref,
+      tableInput: {
+        name: props.resourceName.glueTableName('info'),
+        tableType: 'EXTERNAL_TABLE',
+        storageDescriptor: {
+          columns: [
+            {
+              name: 'info',
+              type: 'array<struct<Date:string,Code:string,CompanyName:string,CompanyNameEnglish:string,Sector17Code:string,Sector17CodeName:string,Sector33Code:string,Sector33CodeName:string,ScaleCategory:string,MarketCode:string,MarketCodeName:string>>',
+            },
+          ],
+          location: `s3://${dataBucket.bucketName}/info/`,
+          inputFormat: 'org.apache.hadoop.mapred.TextInputFormat',
+          outputFormat: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
+          serdeInfo: {
+            serializationLibrary: 'org.openx.data.jsonserde.JsonSerDe',
+            parameters: {
+              'ignore.malformed.json': 'FALSE',
+              'dots.in.keys': 'FALSE',
+              'case.insensitive': 'TRUE',
+              mapping: 'TRUE',
+            },
+          },
+        },
+        parameters: {
+          classification: 'json',
+        },
+      },
+    });
+
+    new CfnTable(this, props.resourceName.glueTableId('daily-quotes'), {
+      catalogId: this.account,
+      databaseName: glueDatabase.ref,
+      tableInput: {
+        name: props.resourceName.glueTableName('daily-quotes'),
+        tableType: 'EXTERNAL_TABLE',
+        storageDescriptor: {
+          columns: [
+            {
+              name: 'daily_quotes',
+              type: 'array<struct<Date:string,Code:string,Open:double,High:double,Low:double,Close:double,UpperLimit:string,LowerLimit:string,Volume:int,TurnoverValue:double,AdjustmentFactor:double,AdjustmentOpen:double,AdjustmentHigh:double,AdjustmentLow:double,AdjustmentClose:double,AdjustmentVolume:double>>',
+            },
+          ],
+          location: `s3://${dataBucket.bucketName}/daily_quotes/`,
+          inputFormat: 'org.apache.hadoop.mapred.TextInputFormat',
+          outputFormat: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
+          serdeInfo: {
+            serializationLibrary: 'org.openx.data.jsonserde.JsonSerDe',
+            parameters: {
+              'ignore.malformed.json': 'FALSE',
+              'dots.in.keys': 'FALSE',
+              'case.insensitive': 'TRUE',
+              mapping: 'TRUE',
+            },
+          },
+        },
+        parameters: {
+          classification: 'json',
+        },
+      },
+    });
   }
 
   private lambdaPath(lambdaName: string, handlerPath: string[]): string {
