@@ -250,7 +250,7 @@ exports[`snapshot test 1`] = `
                   {
                     Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
                   },
-                  /daily_quotes/,
+                  /prices/daily_quotes/,
                 ],
               ],
             },
@@ -481,7 +481,7 @@ exports[`snapshot test 1`] = `
         },
         Environment: {
           Variables: {
-            JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: /stock_snalysis/test/download-listed-info,
+            JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: /stock_snalysis/test/refresh-token,
             S3_BUCKET_NAME: {
               Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
             },
@@ -669,7 +669,7 @@ exports[`snapshot test 1`] = `
         },
         Environment: {
           Variables: {
-            JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: /stock_snalysis/test/download-prices-daily-quotes,
+            JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: /stock_snalysis/test/refresh-token,
             S3_BUCKET_NAME: {
               Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
             },
@@ -869,7 +869,7 @@ exports[`snapshot test 1`] = `
                   {
                     Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
                   },
-                  /info/,
+                  /listed/info/,
                 ],
               ],
             },

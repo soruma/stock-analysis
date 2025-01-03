@@ -181,7 +181,7 @@ export class StockAnalysisStack extends cdk.Stack {
       runtime: Runtime.NODEJS_22_X,
       timeout: cdk.Duration.seconds(30),
       environment: {
-        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey(lambdaName),
+        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey('refresh-token'),
         S3_BUCKET_NAME: dataBucket.bucketName,
       },
       logRetention: RetentionDays.THIRTEEN_MONTHS,
@@ -206,7 +206,7 @@ export class StockAnalysisStack extends cdk.Stack {
       runtime: Runtime.NODEJS_22_X,
       timeout: cdk.Duration.seconds(30),
       environment: {
-        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey(lambdaName),
+        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey('refresh-token'),
         S3_BUCKET_NAME: dataBucket.bucketName,
       },
       logRetention: RetentionDays.THIRTEEN_MONTHS,
