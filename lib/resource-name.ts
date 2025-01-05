@@ -1,10 +1,12 @@
 export class ResourceName {
   public readonly systemName: string;
   public readonly systemEnv: string;
+  public readonly bucketNameSuffix: string;
 
-  constructor(systemName: string, systemEnv: string) {
+  constructor(systemName: string, systemEnv: string, bucketNameSuffix: string) {
     this.systemName = kebabToCamelCase(systemName, { capitalizeFirst: true });
     this.systemEnv = kebabToCamelCase(systemEnv, { capitalizeFirst: true });
+    this.bucketNameSuffix = bucketNameSuffix;
   }
 
   private baseName(name: string): string {
@@ -13,7 +15,7 @@ export class ResourceName {
   }
 
   public s3Name(name: string) {
-    return `${camelToKebabCase(this.baseName(name))}-01941fc5-033f-7488-9a8c-8921a4298acc`;
+    return `${camelToKebabCase(this.baseName(name))}-${this.bucketNameSuffix}`;
   }
 
   public bucketPolicyName(name: string) {

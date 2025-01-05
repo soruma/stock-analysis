@@ -1,8 +1,7 @@
 import * as path from 'node:path';
 import * as cdk from 'aws-cdk-lib';
-import * as dotenv from 'dotenv';
 
-import { Duration, SecretValue } from 'aws-cdk-lib';
+import { Duration } from 'aws-cdk-lib';
 import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { CfnDatabase, CfnTable } from 'aws-cdk-lib/aws-glue';
@@ -16,9 +15,6 @@ import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import type { Construct } from 'constructs';
 
 import { ResourceName } from './resource-name';
-
-dotenv.config({ path: path.resolve(__dirname, '../.jquants.env') });
-dotenv.config({ path: path.resolve(__dirname, '../.abacus.env') });
 
 interface StockAnalysisLambdaStackProps extends cdk.StackProps {
   resourceName: ResourceName;

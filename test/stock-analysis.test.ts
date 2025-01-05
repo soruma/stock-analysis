@@ -6,7 +6,8 @@ import { ResourceName } from '../lib/resource-name';
 import { StockAnalysisStack } from '../lib/stock-analysis-stack';
 
 const systemEnv = 'test';
-const resourceName = new ResourceName('stock-snalysis', systemEnv);
+const bucketNameSuffix = 'dummy-suffix';
+const resourceName = new ResourceName('stock-snalysis', systemEnv, bucketNameSuffix);
 const abacusRoleArn = 'arn:aws:iam::123456789012:role/example-role';
 const previousRefreshToken = 'previousRefreshToken';
 

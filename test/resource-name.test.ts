@@ -5,7 +5,8 @@ import { ResourceName, camelToKebabCase, camelToSnakeCase, kebabToCamelCase } fr
 describe('ResourceName', () => {
   const systemName = 'my-system';
   const systemEnv = 'dev';
-  const resourceName = new ResourceName(systemName, systemEnv);
+  const bucketNameSuffix = '111111-ffffff';
+  const resourceName = new ResourceName(systemName, systemEnv, bucketNameSuffix);
 
   it('should generate the correct base name', () => {
     // biome-ignore lint/complexity/useLiteralKeys: <explanation>
@@ -15,12 +16,12 @@ describe('ResourceName', () => {
 
   it('should generate the correct S3 name in kebab-case', () => {
     const s3Name = resourceName.s3Name('my-bucket');
-    expect(s3Name).toBe('my-system-my-bucket-dev-01941fc5-033f-7488-9a8c-8921a4298acc');
+    expect(s3Name).toBe('my-system-my-bucket-dev-111111-ffffff');
   });
 
   it('should generate the correct Bucket policy name', () => {
     const s3Name = resourceName.s3Name('my-bucket');
-    expect(s3Name).toBe('my-system-my-bucket-dev-01941fc5-033f-7488-9a8c-8921a4298acc');
+    expect(s3Name).toBe('my-system-my-bucket-dev-111111-ffffff');
   });
 
   it('should generate the correct Parameter store name', () => {

@@ -248,7 +248,7 @@ exports[`snapshot test 1`] = `
                 [
                   s3://,
                   {
-                    Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+                    Ref: stocksnalysisdatatestdummysuffix45FD39C2,
                   },
                   /prices/daily_quotes/,
                 ],
@@ -422,7 +422,7 @@ exports[`snapshot test 1`] = `
     StockSnalysisDataBucketPolicyTest88A2A91C: {
       Properties: {
         Bucket: {
-          Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+          Ref: stocksnalysisdatatestdummysuffix45FD39C2,
         },
         PolicyDocument: {
           Statement: [
@@ -442,7 +442,7 @@ exports[`snapshot test 1`] = `
                     [
                       {
                         Fn::GetAtt: [
-                          stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+                          stocksnalysisdatatestdummysuffix45FD39C2,
                           Arn,
                         ],
                       },
@@ -452,7 +452,7 @@ exports[`snapshot test 1`] = `
                 },
                 {
                   Fn::GetAtt: [
-                    stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+                    stocksnalysisdatatestdummysuffix45FD39C2,
                     Arn,
                   ],
                 },
@@ -483,7 +483,7 @@ exports[`snapshot test 1`] = `
           Variables: {
             JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: /stock_snalysis/test/refresh-token,
             S3_BUCKET_NAME: {
-              Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+              Ref: stocksnalysisdatatestdummysuffix45FD39C2,
             },
           },
         },
@@ -584,7 +584,7 @@ exports[`snapshot test 1`] = `
                   [
                     {
                       Fn::GetAtt: [
-                        stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+                        stocksnalysisdatatestdummysuffix45FD39C2,
                         Arn,
                       ],
                     },
@@ -671,7 +671,7 @@ exports[`snapshot test 1`] = `
           Variables: {
             JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: /stock_snalysis/test/refresh-token,
             S3_BUCKET_NAME: {
-              Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+              Ref: stocksnalysisdatatestdummysuffix45FD39C2,
             },
           },
         },
@@ -772,7 +772,7 @@ exports[`snapshot test 1`] = `
                   [
                     {
                       Fn::GetAtt: [
-                        stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+                        stocksnalysisdatatestdummysuffix45FD39C2,
                         Arn,
                       ],
                     },
@@ -867,7 +867,7 @@ exports[`snapshot test 1`] = `
                 [
                   s3://,
                   {
-                    Ref: stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C,
+                    Ref: stocksnalysisdatatestdummysuffix45FD39C2,
                   },
                   /listed/info/,
                 ],
@@ -1130,7 +1130,7 @@ exports[`snapshot test 1`] = `
       },
       Type: AWS::Lambda::LayerVersion,
     },
-    stocksnalysisdatatest01941fc5033f74889a8c8921a4298acc1EECB35C: {
+    stocksnalysisdatatestdummysuffix45FD39C2: {
       DeletionPolicy: Retain,
       Properties: {
         BucketEncryption: {
@@ -1148,15 +1148,15 @@ exports[`snapshot test 1`] = `
             },
           ],
         },
-        BucketName: stock-snalysis-data-test-01941fc5-033f-7488-9a8c-8921a4298acc,
+        BucketName: stock-snalysis-data-test-dummy-suffix,
       },
       Type: AWS::S3::Bucket,
       UpdateReplacePolicy: Retain,
     },
-    stocksnalysisquerytest01941fc5033f74889a8c8921a4298acc71A9544A: {
+    stocksnalysisquerytestdummysuffix67AEE428: {
       DeletionPolicy: Retain,
       Properties: {
-        BucketName: stock-snalysis-query-test-01941fc5-033f-7488-9a8c-8921a4298acc,
+        BucketName: stock-snalysis-query-test-dummy-suffix,
       },
       Type: AWS::S3::Bucket,
       UpdateReplacePolicy: Retain,
