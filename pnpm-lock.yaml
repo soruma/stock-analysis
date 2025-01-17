@@ -17,6 +17,9 @@ importers:
       aws-cdk-lib:
         specifier: 2.171.1
         version: 2.171.1(constructs@10.4.2)
+      aws-cdk-local:
+        specifier: ^2.19.1
+        version: 2.19.1
       constructs:
         specifier: ^10.0.0
         version: 10.4.2
@@ -1090,6 +1093,10 @@ packages:
       - yaml
       - mime-types
 
+  aws-cdk-local@2.19.1:
+    resolution: {integrity: sha512-Bo5FADrG7Vlulxpwfk6DmNWBvvjx6mlMix8K+VV9cTo0a1xl3d0pjpNFsTrwR/jnX4VY7bVV167wuZCFCSqn5w==}
+    hasBin: true
+
   aws-cdk@2.171.1:
     resolution: {integrity: sha512-IWENyT4F5UcLr1szLsbipUdjIHn8FD3d/RvaIvhs2+qCamkfEV5mqv/ChMvRJ8H2jebhIZ2iz74or9O5Ismp+Q==}
     engines: {node: '>= 14.15.0'}
@@ -1184,6 +1191,10 @@ packages:
 
   diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
+    engines: {node: '>=0.3.1'}
+
+  diff@5.2.0:
+    resolution: {integrity: sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==}
     engines: {node: '>=0.3.1'}
 
   dotenv@16.4.5:
@@ -3236,6 +3247,10 @@ snapshots:
       '@aws-cdk/cloud-assembly-schema': 38.0.1
       constructs: 10.4.2
 
+  aws-cdk-local@2.19.1:
+    dependencies:
+      diff: 5.2.0
+
   aws-cdk@2.171.1:
     optionalDependencies:
       fsevents: 2.3.2
@@ -3338,6 +3353,8 @@ snapshots:
       gopd: 1.2.0
 
   diff@4.0.2: {}
+
+  diff@5.2.0: {}
 
   dotenv@16.4.5: {}
 

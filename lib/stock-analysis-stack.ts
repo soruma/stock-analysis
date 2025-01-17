@@ -47,7 +47,9 @@ export class StockAnalysisStack extends cdk.Stack {
     /**
      * Glue
      */
-    this.createGlue(props, dataBucket);
+    if (process.env.NODE_ENV !== 'localstack') {
+      this.createGlue(props, dataBucket);
+    }
 
     /**
      * Lambda Layer
@@ -162,7 +164,7 @@ export class StockAnalysisStack extends cdk.Stack {
       logRetention: RetentionDays.THIRTEEN_MONTHS,
       layers,
       bundling: {
-        externalModules: ['@aws-sdk', 'j-quants', 'stock-analysis-utils'],
+        externalModules: this.existLambdaLayerModules(),
       },
     });
   }
@@ -183,7 +185,7 @@ export class StockAnalysisStack extends cdk.Stack {
       logRetention: RetentionDays.THIRTEEN_MONTHS,
       layers,
       bundling: {
-        externalModules: ['@aws-sdk', 'j-quants', 'stock-analysis-utils'],
+        externalModules: this.existLambdaLayerModules(),
       },
     });
   }
@@ -208,7 +210,7 @@ export class StockAnalysisStack extends cdk.Stack {
       logRetention: RetentionDays.THIRTEEN_MONTHS,
       layers,
       bundling: {
-        externalModules: ['@aws-sdk', 'j-quants', 'stock-analysis-utils'],
+        externalModules: this.existLambdaLayerModules(),
       },
     });
   }
@@ -322,5 +324,13 @@ export class StockAnalysisStack extends cdk.Stack {
 
   private lambdaLayerPath(layerName: string): string {
     return path.join(__dirname, '..', 'assets', 'lambda-layers', layerName, 'dist', 'layer');
+  }
+
+  private existLambdaLayerModules(): string[] {
+    if (process.env.NODE_ENV === 'localstack') {
+      return ['@aws-sdk'];
+    }
+
+    return ['@aws-sdk', 'j-quants', 'stock-analysis-utils'];
   }
 }

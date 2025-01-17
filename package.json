@@ -43,6 +43,7 @@
     "@aws-sdk/client-ssm": "^3.721.0",
     "@aws-sdk/credential-providers": "^3.721.0",
     "aws-cdk-lib": "2.171.1",
+    "aws-cdk-local": "^2.19.1",
     "constructs": "^10.0.0",
     "japanese-holidays": "^1.0.10",
     "stock-analysis-utils": "workspace:*"

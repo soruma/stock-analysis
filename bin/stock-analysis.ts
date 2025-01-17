@@ -18,12 +18,39 @@ const bucketNameSuffix = getEnvVariable('BUCKET_NAME_SUFFIX');
 const abacusRoleArn = getEnvVariable('ABACUS_IAM_ROLE_ARN');
 const resourceName = new ResourceName('stock-snalysis', systemEnv, bucketNameSuffix);
 
+let account: string;
+let region: string;
+let ssmClient: SSMClient;
+
+switch (process.env.NODE_ENV) {
+  case 'localstack':
+    account = '000000000000';
+    region = 'us-east-1';
+
+    ssmClient = new SSMClient({
+      region,
+      credentials: {
+        accessKeyId: 'test',
+        secretAccessKey: 'test',
+        accountId: account,
+      },
+      endpoint: 'http://localhost:4566',
+    });
+    break;
+  default:
+    account = process.env.CDK_DEFAULT_ACCOUNT || '';
+    region = process.env.CDK_DEFAULT_REGION || '';
+
+    ssmClient = new SSMClient({
+      region,
+      credentials: fromEnv(),
+    });
+    break;
+}
+
 const app = new cdk.App();
 
 (async () => {
-  const credentials = fromEnv();
-  const ssmClient = new SSMClient({ credentials });
-
   let previousRefreshToken: string;
   try {
     previousRefreshToken =
@@ -37,8 +64,8 @@ const app = new cdk.App();
     abacusRoleArn,
     previousRefreshToken,
     env: {
-      account: process.env.CDK_DEFAULT_ACCOUNT,
-      region: process.env.CDK_DEFAULT_REGION,
+      account,
+      region,
     },
   });
 })();

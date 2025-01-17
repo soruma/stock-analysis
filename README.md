@@ -23,6 +23,21 @@ pnpm build
 pnpm dlx cdk synth
 ```
 
+## Local execute
+
+Start Localstack:
+
+```shell
+localstack start
+```
+
+Generate bootstrap(It is only necessary for the first time):
+
+```shell
+pnpm cdklocal bootstrap aws://000000000000/us-east-1
+pnpm cdklocal deploy
+```
+
 ## Test
 
 The following commands will build the project and run the test suite to ensure everything is working as expected:
@@ -37,5 +52,5 @@ pnpm test
 The following command will deploy the AWS CDK stack to your cloud environment:
 
 ```
-pnpm dlx cdk deploy
+pnpm cdk deploy
 ```

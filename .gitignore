@@ -10,3 +10,6 @@ cdk.out
 *.env
 
 coverage
+
+# Localstack cache directory
+volume
