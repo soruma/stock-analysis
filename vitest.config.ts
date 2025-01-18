@@ -6,7 +6,7 @@ export default defineConfig({
     environment: 'node',
     coverage: {
       all: true,
-      exclude: ['cdk.out', '**/*.d.ts'],
+      exclude: ['cdk.out', '**/*.{d.ts,js}'],
       reporter: ['text', 'json', 'html'],
     },
     exclude: ['node_modules/**', '**/*.{d.ts,js}'],
