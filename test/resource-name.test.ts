@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { ResourceName, camelToKebabCase, camelToSnakeCase, kebabToCamelCase } from '../lib/resource-name';
+import {
+  ResourceName,
+  camelToKebabCase,
+  camelToSnakeCase,
+  capitalizeFirst,
+  kebabToCamelCase,
+} from '../lib/resource-name';
 
 describe('ResourceName', () => {
   const systemName = 'my-system';
@@ -59,14 +65,41 @@ describe('ResourceName', () => {
     expect(layerName).toBe('MySystemMyLambdaLayerDev');
   });
 
-  it('should generate the correct Lambda name', () => {
-    const lambdaName = resourceName.lambdaName('my-function');
-    expect(lambdaName).toBe('MySystemMyFunctionDevFunction');
-  });
-
   it('should generate the correct Event role name', () => {
     const eventRoleName = resourceName.eventRoleName('my-event-role');
     expect(eventRoleName).toBe('MySystemMyEventRoleDev');
+  });
+
+  it('should generate the correct refreshToken function path', () => {
+    const functionName = resourceName.functionPath('refreshToken');
+    expect(functionName).toBe('refresh-token');
+  });
+
+  it('should generate the correct refreshToken function name', () => {
+    const functionName = resourceName.functionName('refreshToken');
+    expect(functionName).toBe('refreshToken-dev');
+  });
+
+  it('should generate the correct downloadListedInfo function name', () => {
+    const functionName = resourceName.functionName('downloadListedInfo');
+    expect(functionName).toBe('downloadListedInfo-dev');
+  });
+
+  it('should generate the correct downloadListedInfo function name', () => {
+    const functionName = resourceName.functionName('downloadPricesDailyQuotes');
+    expect(functionName).toBe('downloadPricesDailyQuotes-dev');
+  });
+
+  it('should generate correct functionId', () => {
+    expect(resourceName.functionId('refreshToken')).toBe('MySystemRefreshTokenDevFunction');
+  });
+
+  it('should generate the correct downloadListedInfo id', () => {
+    expect(resourceName.functionId('downloadListedInfo')).toBe('MySystemDownloadListedInfoDevFunction');
+  });
+
+  it('should generate the correct downloadPricesDailyQuotes id', () => {
+    expect(resourceName.functionId('downloadPricesDailyQuotes')).toBe('MySystemDownloadPricesDailyQuotesDevFunction');
   });
 
   it('should generate the correct Stack name', () => {
@@ -162,5 +195,37 @@ describe('camelToSnakeCase', () => {
 
   it('should handle strings with numbers', () => {
     expect(camelToSnakeCase('test123Case')).toBe('test123_case');
+  });
+});
+
+describe('capitalizeFirst', () => {
+  it('should capitalize the first letter of a lowercase word', () => {
+    expect(capitalizeFirst('hello')).toBe('Hello');
+  });
+
+  it('should capitalize the first letter of an uppercase word (no change)', () => {
+    expect(capitalizeFirst('World')).toBe('World');
+  });
+
+  it('should handle single character strings', () => {
+    expect(capitalizeFirst('a')).toBe('A');
+    expect(capitalizeFirst('B')).toBe('B');
+  });
+
+  it('should handle empty strings', () => {
+    expect(capitalizeFirst('')).toBe('');
+  });
+
+  it('should handle strings with numbers', () => {
+    expect(capitalizeFirst('123abc')).toBe('123abc');
+  });
+
+  it('should handle strings with special characters', () => {
+    expect(capitalizeFirst('!hello')).toBe('!hello');
+    expect(capitalizeFirst('@world')).toBe('@world');
+  });
+
+  it('should handle strings with spaces', () => {
+    expect(capitalizeFirst(' hello')).toBe(' hello');
   });
 });

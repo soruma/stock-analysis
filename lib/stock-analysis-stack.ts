@@ -39,7 +39,7 @@ export class StockAnalysisStack extends cdk.Stack {
       this,
       props.resourceName.parameterStoreName('refresh-token'),
       {
-        parameterName: props.resourceName.parameterStoreKey('refresh-token'),
+        parameterName: props.resourceName.parameterStoreKey(props.resourceName.functionPath('refreshToken')),
         stringValue: props.previousRefreshToken,
       },
     );
@@ -148,10 +148,9 @@ export class StockAnalysisStack extends cdk.Stack {
   }
 
   createRefreshTokenFunction(props: StockAnalysisLambdaStackProps, layers: LayerVersion[]) {
-    const lambdaName = 'refresh-token';
-
-    return new NodejsFunction(this, props.resourceName.lambdaName(lambdaName), {
-      entry: this.lambdaPath(lambdaName, ['src', 'index.ts']),
+    return new NodejsFunction(this, props.resourceName.functionId('refreshToken'), {
+      functionName: props.resourceName.functionName('refreshToken'),
+      entry: this.lambdaPath(props.resourceName.functionPath('refreshToken'), ['src', 'index.ts']),
       handler: 'handler',
       architecture: Architecture.ARM_64,
       runtime: Runtime.NODEJS_22_X,
@@ -159,7 +158,9 @@ export class StockAnalysisStack extends cdk.Stack {
       environment: {
         JQUANTS_API_MAIL_ADDRESS: process.env.JQUANTS_API_MAIL_ADDRESS || '',
         JQUANTS_API_PASSWORD: process.env.JQUANTS_API_PASSWORD || '',
-        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey(lambdaName),
+        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey(
+          props.resourceName.functionPath('refreshToken'),
+        ),
       },
       logRetention: RetentionDays.THIRTEEN_MONTHS,
       layers,
@@ -170,16 +171,17 @@ export class StockAnalysisStack extends cdk.Stack {
   }
 
   createDownloadListedInfoFunction(props: StockAnalysisLambdaStackProps, dataBucket: Bucket, layers: LayerVersion[]) {
-    const lambdaName = 'download-listed-info';
-
-    return new NodejsFunction(this, props.resourceName.lambdaName(lambdaName), {
-      entry: this.lambdaPath(lambdaName, ['src', 'index.ts']),
+    return new NodejsFunction(this, props.resourceName.functionId('downloadListedInfo'), {
+      functionName: props.resourceName.functionName('downloadListedInfo'),
+      entry: this.lambdaPath(props.resourceName.functionPath('downloadListedInfo'), ['src', 'index.ts']),
       handler: 'handler',
       architecture: Architecture.ARM_64,
       runtime: Runtime.NODEJS_22_X,
       timeout: cdk.Duration.seconds(30),
       environment: {
-        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey('refresh-token'),
+        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey(
+          props.resourceName.functionPath('refreshToken'),
+        ),
         S3_BUCKET_NAME: dataBucket.bucketName,
       },
       logRetention: RetentionDays.THIRTEEN_MONTHS,
@@ -195,16 +197,17 @@ export class StockAnalysisStack extends cdk.Stack {
     dataBucket: Bucket,
     layers: LayerVersion[],
   ) {
-    const lambdaName = 'download-prices-daily-quotes';
-
-    return new NodejsFunction(this, props.resourceName.lambdaName(lambdaName), {
-      entry: this.lambdaPath(lambdaName, ['src', 'index.ts']),
+    return new NodejsFunction(this, props.resourceName.functionId('downloadPricesDailyQuotes'), {
+      functionName: props.resourceName.functionName('downloadPricesDailyQuotes'),
+      entry: this.lambdaPath(props.resourceName.functionPath('downloadPricesDailyQuotes'), ['src', 'index.ts']),
       handler: 'handler',
       architecture: Architecture.ARM_64,
       runtime: Runtime.NODEJS_22_X,
       timeout: cdk.Duration.seconds(30),
       environment: {
-        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey('refresh-token'),
+        JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: props.resourceName.parameterStoreKey(
+          props.resourceName.functionPath('refreshToken'),
+        ),
         S3_BUCKET_NAME: dataBucket.bucketName,
       },
       logRetention: RetentionDays.THIRTEEN_MONTHS,

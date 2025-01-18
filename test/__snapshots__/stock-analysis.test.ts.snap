@@ -487,6 +487,7 @@ exports[`snapshot test 1`] = `
             },
           },
         },
+        FunctionName: downloadListedInfo-test,
         Handler: index.handler,
         Layers: [
           {
@@ -675,6 +676,7 @@ exports[`snapshot test 1`] = `
             },
           },
         },
+        FunctionName: downloadPricesDailyQuotes-test,
         Handler: index.handler,
         Layers: [
           {
@@ -982,6 +984,7 @@ exports[`snapshot test 1`] = `
             JQUANTS_API_REFRESH_TOKEN_PARAMETER_KEY: /stock_snalysis/test/refresh-token,
           },
         },
+        FunctionName: refreshToken-test,
         Handler: index.handler,
         Layers: [
           {

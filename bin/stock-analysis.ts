@@ -54,7 +54,8 @@ const app = new cdk.App();
   let previousRefreshToken: string;
   try {
     previousRefreshToken =
-      (await getRefreshToken(ssmClient, resourceName.parameterStoreKey('refresh-token'))) ?? 'dummy-value';
+      (await getRefreshToken(ssmClient, resourceName.parameterStoreKey(resourceName.functionPath('refreshToken')))) ??
+      'dummy-value';
   } catch {
     previousRefreshToken = 'dummy-value';
   }
